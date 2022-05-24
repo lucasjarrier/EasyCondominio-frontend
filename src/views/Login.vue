@@ -22,7 +22,7 @@ body {
   background-color: aquamarine;
 }
 .main-div {
-  // background-image: url("~@/assets/campina.jpg");
+  // background-image: url("~@/assets/campina.jpg") aaaaaaa;
   margin: 0;
   padding: 0;
   background-color: black;
