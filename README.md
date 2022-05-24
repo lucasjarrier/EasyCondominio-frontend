@@ -1,4 +1,4 @@
-# gtchefs_frontend
+# EasyCondominio
 
 ## Project setup
 ```
