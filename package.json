@@ -46,6 +46,9 @@
     },
     "rules": {}
   },
+  "resolutions": {
+    "minimist": "^1.2.5"
+  },
   "browserslist": [
     "> 1%",
     "last 2 versions",
