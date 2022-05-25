@@ -44,7 +44,7 @@
             </b-input-group>
           </b-row>
           <div id="container">
-            <router-link class="entrar" to="/">
+            <router-link class="entrar" to="/header">
               <div type="submit" id="entrar" class="btn-enter text-center">
                 Entrar
               </div>
@@ -53,25 +53,58 @@
           <b-row>
             <label class="cadastro txt-cadastro"
               >Não tem uma conta?
-              <router-link to="/">
+              <router-link to="/HelloWorld">
                 <a href="">Cadastre-se</a>
               </router-link>
             </label>
           </b-row>
           <b-row>
             <label class="txt-cadastro">
-              <router-link to="/">
-                <a href="">Esqueci minha senha</a>
-              </router-link>
+              <b-button v-b-modal.modal-1 class="button-modal" v-on:click="mostrar" size="sm" >Esqueci minha senha</b-button>
+              <b-modal id="modal-1" title="Recuperar Senha">
+                <b-row>
+                  <b-input-group class="input-email mr-auto ml-auto">
+                    <b-form-input
+                      id="email"
+                      class="email-campo"
+                      type="email"
+                      placeholder="Email"
+                      required
+                    />
+                  </b-input-group>
+                </b-row>
+              </b-modal>
             </label>
           </b-row>
         </div>
       </b-col>
     </b-container>
-  </div>
+  </div> 
 </template>
 
+<script>
+export default {
+  data() {
+    return {
+      login: { showPassword: false },
+      show: false,
+      variants: ['primary', 'secondary', 'success', 'warning', 'danger', 'info', 'light', 'dark'],
+    };
+  },
+  methods: {
+    viewPassword() {
+      this.login.showPassword = this.login.showPassword ? false : true;
+    },
+    mostrar() {
+      console.log('maoeeeh');
+    },
+  },
+};
+</script>
+
 <style lang="scss" scoped>
+@import url("//unpkg.com/element-ui@2.15.2/lib/theme-chalk/index.css");
+
 .eye-icon {
   color: rgb(94, 94, 94);
 }
@@ -143,18 +176,3 @@
   color: white;
 }
 </style>
-
-<script>
-export default {
-  data() {
-    return {
-      login: { showPassword: false },
-    };
-  },
-  methods: {
-    viewPassword() {
-      this.login.showPassword = this.login.showPassword ? false : true;
-    },
-  },
-};
-</script>
