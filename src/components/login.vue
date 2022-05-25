@@ -53,14 +53,14 @@
           <b-row>
             <label class="cadastro txt-cadastro"
               >Não tem uma conta?
-              <router-link to="/HelloWorld">
-                <a href="">Cadastre-se</a>
+              <router-link to="/CadastroUsuario">
+                <a href="" class='link'>Cadastre-se</a>
               </router-link>
             </label>
           </b-row>
           <b-row>
             <label class="txt-cadastro">
-              <b-button v-b-modal.modal-1 class="button-modal" v-on:click="mostrar" size="sm" >Esqueci minha senha</b-button>
+              <b-button v-b-modal.modal-1 class="button-modal" v-on:click="mostrar" size="sm" variant="primary"> Esqueci minha senha </b-button>
               <b-modal id="modal-1" title="Recuperar Senha">
                 <b-row>
                   <b-input-group class="input-email mr-auto ml-auto">
@@ -123,6 +123,14 @@ export default {
   margin-left: 12%;
 }
 
+.link {
+  color: #b63781;
+}
+
+.link:hover {
+  color: #3fa9f0;
+}
+
 .input-email {
   width: 77%;
   height: 67px;
@@ -159,6 +167,10 @@ export default {
   margin-right: auto;
   background: #b63781;
   margin-top: 1rem;
+}
+
+.btn-enter:hover {
+  background-color: #3fa9f0;
 }
 
 .txt-cadastro {

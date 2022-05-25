@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Home from './views/home/Home.vue'
+// import Home from './views/home/Home.vue'
 import Header from './components/header'
-import HelloWorld from './components/HelloWorld'
+import CadastroUsuario from './components/CadastroUsuario'
 import Login from './views/Login'
 
 Vue.use(Router);
@@ -12,8 +12,8 @@ export default new Router({
     routes: [
         {
             path: '/',
-            name: 'home',
-            component: Home
+            name: 'login',
+            component: Login
         },
         {
             path: '/header',
@@ -22,13 +22,13 @@ export default new Router({
         },
         {
             path: '/login',
-            nome: 'loign',
+            nome: 'login',
             component: Login
         },
         {
-            path: '/HelloWorld',
-            nome: 'hello',
-            component: HelloWorld
+            path: '/CadastroUsuario',
+            nome: 'cadastro Usuario',
+            component: CadastroUsuario
         },
     ]
 })
