@@ -53,14 +53,62 @@
           <b-row>
             <label class="cadastro txt-cadastro"
               >Não tem uma conta?
-              <router-link to="/CadastroUsuario">
-                <a href="" class='link'>Cadastre-se</a>
-              </router-link>
+              <a class="link" v-b-modal.modal-2>Cadastre-se</a>
+              <b-modal size="xx" id="modal-2" title="Cadastrar novo Usuário">
+                <b-row>
+                  <b-form-group class="input-email mr-auto ml-auto">
+                    <b-form-input
+                      id="email"
+                      class="email-campo"
+                      type="email"
+                      placeholder="Email"
+                      required
+                    />
+                  </b-form-group>
+                  <b-form-group class="input-senha mr-auto ml-auto">
+                    <b-form-input
+                      id="senha"
+                      class="senha-campo"
+                      :type="login.showPassword ? 'text' : 'password'"
+                      placeholder="Senha"
+                      required
+                    />
+                  </b-form-group>
+                  <b-form-group class="input-senha mr-auto ml-auto">
+                    <b-form-input
+                      id="senha"
+                      class="senha-campo"
+                      type="text"
+                      placeholder="Nome"
+                      required
+                    />
+                  </b-form-group>
+                  <b-form-group class="input-senha mr-auto ml-auto">
+                    <b-form-input
+                      id="senha"
+                      class="senha-campo"
+                      type="text"
+                      placeholder="Apartamento"
+                      required
+                    />
+                  </b-form-group>
+                  <b-form-group class="input-senha mr-auto ml-auto">
+                    <b-form-select v-model="selected" :options="options"></b-form-select>  
+                  </b-form-group>
+                </b-row>
+              </b-modal>
             </label>
           </b-row>
           <b-row>
             <label class="txt-cadastro">
-              <b-button v-b-modal.modal-1 class="button-modal" v-on:click="mostrar" size="sm" variant="primary"> Esqueci minha senha </b-button>
+              <b-button
+                v-b-modal.modal-1
+                class="button-modal"
+                v-on:click="mostrar"
+                size="sm"
+              >
+                Esqueci minha senha
+              </b-button>
               <b-modal id="modal-1" title="Recuperar Senha">
                 <b-row>
                   <b-input-group class="input-email mr-auto ml-auto">
@@ -79,7 +127,7 @@
         </div>
       </b-col>
     </b-container>
-  </div> 
+  </div>
 </template>
 
 <script>
@@ -88,7 +136,23 @@ export default {
     return {
       login: { showPassword: false },
       show: false,
-      variants: ['primary', 'secondary', 'success', 'warning', 'danger', 'info', 'light', 'dark'],
+      variants: [
+        "primary",
+        "secondary",
+        "success",
+        "warning",
+        "danger",
+        "info",
+        "light",
+        "dark",
+      ],
+      selected: null,
+      options: [
+        { value: null, text: 'Selecione um Gênero' },
+        { value: 'MASCULINO', text: 'Masculino' },
+        { value: 'FEMININO', text: 'Feminino' },
+        { value: 'NAO_INFORMADO', text: 'Prefiro não informar' }
+      ]
     };
   },
   methods: {
@@ -96,7 +160,7 @@ export default {
       this.login.showPassword = this.login.showPassword ? false : true;
     },
     mostrar() {
-      console.log('maoeeeh');
+      console.log("maoeeeh");
     },
   },
 };
@@ -184,7 +248,8 @@ export default {
   margin-top: 2rem;
 }
 
-.label-senha , .label-email {
+.label-senha,
+.label-email {
   color: white;
 }
 </style>
