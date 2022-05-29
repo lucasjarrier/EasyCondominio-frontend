@@ -54,7 +54,7 @@
             <label class="cadastro txt-cadastro"
               >Não tem uma conta?
               <a class="link" v-b-modal.modal-2>Cadastre-se</a>
-              <b-modal size="xx" id="modal-2" title="Cadastrar novo Usuário">
+              <b-modal id="modal-2" title="Cadastrar novo Usuário">
                 <b-row>
                   <b-form-group class="input-email mr-auto ml-auto">
                     <b-form-input
@@ -101,14 +101,7 @@
           </b-row>
           <b-row>
             <label class="txt-cadastro">
-              <b-button
-                v-b-modal.modal-1
-                class="button-modal"
-                v-on:click="mostrar"
-                size="sm"
-              >
-                Esqueci minha senha
-              </b-button>
+              <a class="link" v-b-modal.modal-1>Esqueci minha senha</a>
               <b-modal id="modal-1" title="Recuperar Senha">
                 <b-row>
                   <b-input-group class="input-email mr-auto ml-auto">
@@ -152,7 +145,15 @@ export default {
         { value: 'MASCULINO', text: 'Masculino' },
         { value: 'FEMININO', text: 'Feminino' },
         { value: 'NAO_INFORMADO', text: 'Prefiro não informar' }
-      ]
+      ],
+      formInput: {
+        "login": "",
+        "password": "",
+        "name": "",
+        "gender": "",
+        "apartment": "",
+        "phoneNumber": ""
+      }
     };
   },
   methods: {
@@ -168,6 +169,7 @@ export default {
 
 <style lang="scss" scoped>
 @import url("//unpkg.com/element-ui@2.15.2/lib/theme-chalk/index.css");
+@import "@/assets/styles/_variables.scss";
 
 .eye-icon {
   color: rgb(94, 94, 94);
@@ -188,7 +190,7 @@ export default {
 }
 
 .link {
-  color: #b63781;
+  color: $primary-color;
 }
 
 .link:hover {
@@ -229,7 +231,7 @@ export default {
   width: 77%;
   margin-left: auto;
   margin-right: auto;
-  background: #b63781;
+  background: $primary-color;
   margin-top: 1rem;
 }
 
