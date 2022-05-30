@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
+import VueMask from 'v-mask';
 import router from "./router"
 import Element from 'element-ui'
 import locale from 'element-ui/lib/locale/lang/pt-br'
@@ -10,6 +11,7 @@ import "bootstrap-vue/dist/bootstrap-vue.css"
 Vue.use(BootstrapVue);
 Vue.use(BootstrapVueIcons);
 Vue.use(Element,{locale})
+Vue.use(VueMask);
 
 Vue.config.productionTip = false
 

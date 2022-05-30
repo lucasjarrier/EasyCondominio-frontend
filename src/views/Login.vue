@@ -1,37 +1,37 @@
 <template>
-  <div class="main-div">
-    <b-row class="justify-content-center main-row" align-v="center">
-      <b-col sm="12" md="12" lg="8" xl="6">
-        <b-img class="logo" :src="logo"></b-img>
-        <LoginBox />
-      </b-col>
-    </b-row>
-  </div>
+  <body>
+    <div class="background-image">
+      <b-row class="justify-content-center main-row" align-v="center">
+        <b-col xl="*">
+          <b-img class="logo" :src="logo"></b-img>
+          <LoginBox />
+        </b-col>
+      </b-row>
+    </div>
+  </body>
 </template>
 
 <style lang="scss" scoped>
-.logo {
-  position: relative;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 45%;
-}
 
-body {
-  background-color: aquamarine;
-}
-.main-div {
-  // background-image: url("~@/assets/campina.jpg") aaaaaaa;
-  margin: 0;
-  padding: 0;
-  background-color: black;
-  background-repeat: no-repeat;
-  height:1000px;
-  background-size: cover;
-  width: 100%;
-  position: relative;
-}
+  .logo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 45%;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  .background-image{
+    background-color: black;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height:100vh;
+  }
+
 </style>
 
 <script>

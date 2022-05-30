@@ -1,5 +1,7 @@
 <template>
-  <div class="background">
+  <div>
+    <!-- <b-alert v-if="this.successCadastro == true" variant="success" show>Usuário Cadastrado com Sucesso</b-alert>
+    <b-alert v-else variant="danger" show>Erro ao criar usuário</b-alert> -->
     <b-container class="container-login col-xs-12 col-sm-6 col-md-8">
       <b-col>
         <div>
@@ -54,7 +56,7 @@
             <label class="cadastro txt-cadastro"
               >Não tem uma conta?
               <a class="link" v-b-modal.modal-2>Cadastre-se</a>
-              <b-modal id="modal-2" title="Cadastrar novo Usuário">
+              <b-modal v-model="modalShow" id="modal-2" title="Cadastrar novo Usuário" hide-footer>
                 <b-row>
                   <b-form-group class="input-email mr-auto ml-auto">
                     <b-form-input
@@ -62,6 +64,7 @@
                       class="email-campo"
                       type="email"
                       placeholder="Email"
+                      v-model="form.login"
                       required
                     />
                   </b-form-group>
@@ -71,31 +74,44 @@
                       class="senha-campo"
                       :type="login.showPassword ? 'text' : 'password'"
                       placeholder="Senha"
+                      v-model="form.password"
                       required
                     />
                   </b-form-group>
                   <b-form-group class="input-senha mr-auto ml-auto">
                     <b-form-input
-                      id="senha"
                       class="senha-campo"
                       type="text"
                       placeholder="Nome"
+                      v-model="form.name"
                       required
                     />
                   </b-form-group>
                   <b-form-group class="input-senha mr-auto ml-auto">
                     <b-form-input
-                      id="senha"
                       class="senha-campo"
                       type="text"
                       placeholder="Apartamento"
+                      v-model="form.apartment"
+                      v-mask="'###-#'"
                       required
                     />
                   </b-form-group>
                   <b-form-group class="input-senha mr-auto ml-auto">
-                    <b-form-select v-model="selected" :options="options"></b-form-select>  
+                    <b-form-input
+                      class="senha-campo"
+                      type="text"
+                      placeholder="Telefone"
+                      v-model="form.phoneNumber"
+                      v-mask="'+55 (##) #####-####'"
+                      required
+                    />
+                  </b-form-group>
+                  <b-form-group class="input-senha mr-auto ml-auto">
+                    <b-form-select v-model="form.gender" :options="options"></b-form-select>  
                   </b-form-group>
                 </b-row>
+                <b-button class="mt-3" block @click="cadastrarUsuario">Cadastrar</b-button>
               </b-modal>
             </label>
           </b-row>
@@ -124,11 +140,14 @@
 </template>
 
 <script>
+
+import { cadastrarUsuario } from '@/services/usuarioService';
+
 export default {
   data() {
     return {
       login: { showPassword: false },
-      show: false,
+      modalShow: false,
       variants: [
         "primary",
         "secondary",
@@ -141,28 +160,49 @@ export default {
       ],
       selected: null,
       options: [
-        { value: null, text: 'Selecione um Gênero' },
+        { value: "", text: 'Selecione um Gênero' },
         { value: 'MASCULINO', text: 'Masculino' },
         { value: 'FEMININO', text: 'Feminino' },
         { value: 'NAO_INFORMADO', text: 'Prefiro não informar' }
       ],
-      formInput: {
+      form: {
         "login": "",
         "password": "",
         "name": "",
         "gender": "",
         "apartment": "",
         "phoneNumber": ""
-      }
+      },
+      successCadastro: null,
     };
   },
   methods: {
     viewPassword() {
       this.login.showPassword = this.login.showPassword ? false : true;
     },
-    mostrar() {
-      console.log("maoeeeh");
+    async cadastrarUsuario() {
+      let successCadastro = false;
+      try {
+        successCadastro =  await cadastrarUsuario(this.form)
+      } catch (e) {
+        console.alert(e.response.data);
+      }
+      if(successCadastro) {
+        this.modalShow = false;
+        this.successCadastro = true;
+        this.clearCacheInputs();
+      }
+      console.log(this.form);
     },
+    clearCacheInputs() {
+      this.form.login = "",
+      this.form.password = "",
+      this.form.name = "",
+      this.form.gender = "",
+      this.form.apartment = "",
+      this.form.phoneNumber = ""
+      // this.successCadastro = null;
+    }
   },
 };
 </script>
@@ -177,7 +217,6 @@ export default {
 .eye-btn {
   height: 50px !important;
   width: 50px !important;
-  border-top-left-radius: 0px !important;
   cursor: pointer;
 }
 
