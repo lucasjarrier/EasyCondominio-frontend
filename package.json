@@ -14,7 +14,6 @@
     "core-js": "^3.6.5",
     "element-ui": "^2.13.0",
     "hoek": "5",
-    "localStorage": "^1.0.4",
     "sass": "^1.32.8",
     "sass-loader": "10.1.1",
     "v-mask": "^2.3.0",

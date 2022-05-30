@@ -1,7 +1,7 @@
 <template>
   <div>
-    <!-- <b-alert v-if="this.successCadastro == true" variant="success" show>Usuário Cadastrado com Sucesso</b-alert>
-    <b-alert v-else variant="danger" show>Erro ao criar usuário</b-alert> -->
+    <b-alert v-if="this.successCadastro == true" variant="success" show dismissible>Usuário Cadastrado com Sucesso</b-alert>
+    <b-alert v-if="this.successCadastro == false" variant="danger" show dismissible>Erro ao criar usuário</b-alert>
     <b-container class="container-login col-xs-12 col-sm-6 col-md-8">
       <b-col>
         <div>
@@ -14,6 +14,7 @@
                 id="email"
                 class="email-campo"
                 type="email"
+                v-model="formLogin.login"
                 placeholder="Email"
                 required
               />
@@ -28,6 +29,7 @@
                 id="senha"
                 class="senha-campo"
                 :type="login.showPassword ? 'text' : 'password'"
+                v-model="formLogin.password"
                 placeholder="Senha"
                 required
               />
@@ -46,11 +48,9 @@
             </b-input-group>
           </b-row>
           <div id="container">
-            <router-link class="entrar" to="/header">
-              <div type="submit" id="entrar" class="btn-enter text-center">
-                Entrar
-              </div>
-            </router-link>
+            <div type="submit" id="entrar" class="btn-enter text-center" @click='logarUsuario'>
+              Entrar
+            </div>
           </div>
           <b-row>
             <label class="cadastro txt-cadastro"
@@ -118,7 +118,7 @@
           <b-row>
             <label class="txt-cadastro">
               <a class="link" v-b-modal.modal-1>Esqueci minha senha</a>
-              <b-modal id="modal-1" title="Recuperar Senha">
+              <b-modal id="modal-1" v-model="modalShow2" title="Recuperar Senha" hide-footer>
                 <b-row>
                   <b-input-group class="input-email mr-auto ml-auto">
                     <b-form-input
@@ -130,6 +130,7 @@
                     />
                   </b-input-group>
                 </b-row>
+                <b-button class="mt-2" block @click="recuperarSenha">Enviar</b-button>
               </b-modal>
             </label>
           </b-row>
@@ -142,23 +143,16 @@
 <script>
 
 import { cadastrarUsuario } from '@/services/usuarioService';
+import { login } from '@/services/authService';
 
 export default {
   data() {
     return {
       login: { showPassword: false },
       modalShow: false,
-      variants: [
-        "primary",
-        "secondary",
-        "success",
-        "warning",
-        "danger",
-        "info",
-        "light",
-        "dark",
-      ],
+      modalShow2: false,
       selected: null,
+      successCadastro: null,
       options: [
         { value: "", text: 'Selecione um Gênero' },
         { value: 'MASCULINO', text: 'Masculino' },
@@ -173,7 +167,10 @@ export default {
         "apartment": "",
         "phoneNumber": ""
       },
-      successCadastro: null,
+      formLogin: {
+        "login": "",
+        "password": ""
+      },
     };
   },
   methods: {
@@ -185,7 +182,7 @@ export default {
       try {
         successCadastro =  await cadastrarUsuario(this.form)
       } catch (e) {
-        console.alert(e.response.data);
+        this.successCadastro = false;
       }
       if(successCadastro) {
         this.modalShow = false;
@@ -202,6 +199,24 @@ export default {
       this.form.apartment = "",
       this.form.phoneNumber = ""
       // this.successCadastro = null;
+    },
+    async logarUsuario() {
+      let successLogin = false;
+      try {
+        successLogin = await login(this.formLogin)
+      } catch (e) {
+       console.log(this.formLogin)
+      }
+
+      if(successLogin) {
+        localStorage.setItem('token', successLogin.data.token)
+        this.$router.push('/CadastroUsuario')
+        console.log(successLogin);
+      }
+    },
+    recuperarSenha() {
+      this.modalShow2 = false;
+      alert('Uma nova senha será envida para seu e-mail.');
     }
   },
 };
