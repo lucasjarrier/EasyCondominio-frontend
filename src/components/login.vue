@@ -210,7 +210,7 @@ export default {
 
       if(successLogin) {
         localStorage.setItem('token', successLogin.data.token)
-        this.$router.push('/CadastroUsuario')
+        this.$router.push('/Home')
         console.log(successLogin);
       }
     },
