@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Header from './components/header'
+import AreasComuns from './components/AreasComuns'
 import Home from './components/Home'
 import Login from './views/Login'
 
@@ -15,9 +15,9 @@ export default new Router({
             component: Login
         },
         {
-            path: '/header',
+            path: '/listagem-areas',
             nome: 'sobre',
-            component: Header
+            component: AreasComuns
         },
         {
             path: '/login',

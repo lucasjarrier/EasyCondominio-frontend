@@ -1,31 +1,33 @@
 <template>
-  <div>
-    <b-navbar toggleable="lg" type="dark" variant="dark">
-    <b-navbar-brand href="#">Olá {{this.usuario.name}} </b-navbar-brand>
-    <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-    <b-collapse id="nav-collapse" is-nav>
-      <b-navbar-nav>
-        <b-nav-item href="#">Áreas Comuns</b-nav-item>
-        <b-nav-item href="#" :disabled="1 < 0">Quadro de Avisos</b-nav-item>
-      </b-navbar-nav>
-      <b-navbar-nav class="ml-auto">
-        <b-nav-item-dropdown text="Meu Perfil" right>
-          <b-dropdown-item href="#">Configurações do Perfil</b-dropdown-item>
-          <b-dropdown-item href="#">Histórico de Reservas</b-dropdown-item>
-          <b-dropdown-item href="#">Sair</b-dropdown-item>
-        </b-nav-item-dropdown>
-      </b-navbar-nav>
-    </b-collapse>
-  </b-navbar>
-  <div>
-    Olá
-  </div>
-  </div>
+  <body>
+    <div v-if="this.usuario">
+      <b-navbar toggleable="lg" type="dark" variant="dark">
+        <b-navbar-brand href="#">Olá {{ this.usuario.name }} </b-navbar-brand>
+        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+        <b-collapse id="nav-collapse" is-nav>
+          <b-navbar-nav>
+            <b-nav-item href="#">Áreas Comuns</b-nav-item>
+            <b-nav-item href="#" :disabled="1 < 0">Quadro de Avisos</b-nav-item>
+          </b-navbar-nav>
+          <b-navbar-nav class="ml-auto">
+            <b-nav-item-dropdown text="Meu Perfil" right>
+              <b-dropdown-item href="#"
+                >Configurações do Perfil</b-dropdown-item
+              >
+              <b-dropdown-item href="#">Histórico de Reservas</b-dropdown-item>
+              <b-dropdown-item href="#" @click="logout">Sair</b-dropdown-item>
+            </b-nav-item-dropdown>
+          </b-navbar-nav>
+        </b-collapse>
+      </b-navbar>
+    </div>
+    <div v-else>Você não está logado, efetue o login!</div>
+  </body>
 </template>
 
 <script>
-
-import { getUserByToken } from '@/services/usuarioService';
+import { getUserByToken } from "@/services/usuarioService";
+import { logout } from "@/services/authService";
 
 export default {
   name: "Home",
@@ -35,12 +37,23 @@ export default {
     };
   },
   methods: {
+    async logout() {
+      localStorage.removeItem("token");
+      let response = await logout();
+      {
+        if (response) {
+          this.usuario = null;
+          this.$router.push("/");
+        }
+      }
+    },
   },
   async mounted() {
     const response = await getUserByToken(localStorage.getItem('token'));
     if (response) {
       this.usuario = response.data;
-    }
+      }
+    this.$router.push("/");
   },
 };
 </script>

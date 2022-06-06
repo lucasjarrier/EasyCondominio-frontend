@@ -1,7 +1,19 @@
 <template>
   <div>
-    <b-alert v-if="this.successCadastro == true" variant="success" show dismissible>Usuário Cadastrado com Sucesso</b-alert>
-    <b-alert v-if="this.successCadastro == false" variant="danger" show dismissible>Erro ao criar usuário</b-alert>
+    <b-alert
+      v-if="this.successCadastro == true"
+      variant="success"
+      show
+      dismissible
+      >Usuário Cadastrado com Sucesso</b-alert
+    >
+    <b-alert
+      v-if="this.successCadastro == false"
+      variant="danger"
+      show
+      dismissible
+      >Erro ao criar usuário</b-alert
+    >
     <b-container class="container-login col-xs-12 col-sm-6 col-md-8">
       <b-col>
         <div>
@@ -48,7 +60,12 @@
             </b-input-group>
           </b-row>
           <div id="container">
-            <div type="submit" id="entrar" class="btn-enter text-center" @click='logarUsuario'>
+            <div
+              type="submit"
+              id="entrar"
+              class="btn-enter text-center"
+              @click="logarUsuario"
+            >
               Entrar
             </div>
           </div>
@@ -56,7 +73,12 @@
             <label class="cadastro txt-cadastro"
               >Não tem uma conta?
               <a class="link" v-b-modal.modal-2>Cadastre-se</a>
-              <b-modal v-model="modalShow" id="modal-2" title="Cadastrar novo Usuário" hide-footer>
+              <b-modal
+                v-model="modalShow"
+                id="modal-2"
+                title="Cadastrar novo Usuário"
+                hide-footer
+              >
                 <b-row>
                   <b-form-group class="input-email mr-auto ml-auto">
                     <b-form-input
@@ -108,17 +130,27 @@
                     />
                   </b-form-group>
                   <b-form-group class="input-senha mr-auto ml-auto">
-                    <b-form-select v-model="form.gender" :options="options"></b-form-select>  
+                    <b-form-select
+                      v-model="form.gender"
+                      :options="options"
+                    ></b-form-select>
                   </b-form-group>
                 </b-row>
-                <b-button class="mt-3" block @click="cadastrarUsuario">Cadastrar</b-button>
+                <b-button class="mt-3" block @click="cadastrarUsuario"
+                  >Cadastrar</b-button
+                >
               </b-modal>
             </label>
           </b-row>
           <b-row>
             <label class="txt-cadastro">
               <a class="link" v-b-modal.modal-1>Esqueci minha senha</a>
-              <b-modal id="modal-1" v-model="modalShow2" title="Recuperar Senha" hide-footer>
+              <b-modal
+                id="modal-1"
+                v-model="modalShow2"
+                title="Recuperar Senha"
+                hide-footer
+              >
                 <b-row>
                   <b-input-group class="input-email mr-auto ml-auto">
                     <b-form-input
@@ -130,7 +162,9 @@
                     />
                   </b-input-group>
                 </b-row>
-                <b-button class="mt-2" block @click="recuperarSenha">Enviar</b-button>
+                <b-button class="mt-2" block @click="recuperarSenha"
+                  >Enviar</b-button
+                >
               </b-modal>
             </label>
           </b-row>
@@ -141,9 +175,8 @@
 </template>
 
 <script>
-
-import { cadastrarUsuario } from '@/services/usuarioService';
-import { login } from '@/services/authService';
+import { cadastrarUsuario } from "@/services/usuarioService";
+import { login } from "@/services/authService";
 
 export default {
   data() {
@@ -154,22 +187,22 @@ export default {
       selected: null,
       successCadastro: null,
       options: [
-        { value: "", text: 'Selecione um Gênero' },
-        { value: 'MASCULINO', text: 'Masculino' },
-        { value: 'FEMININO', text: 'Feminino' },
-        { value: 'NAO_INFORMADO', text: 'Prefiro não informar' }
+        { value: "", text: "Selecione um Gênero" },
+        { value: "MASCULINO", text: "Masculino" },
+        { value: "FEMININO", text: "Feminino" },
+        { value: "NAO_INFORMADO", text: "Prefiro não informar" },
       ],
       form: {
-        "login": "",
-        "password": "",
-        "name": "",
-        "gender": "",
-        "apartment": "",
-        "phoneNumber": ""
+        login: "",
+        password: "",
+        name: "",
+        gender: "",
+        apartment: "",
+        phoneNumber: "",
       },
       formLogin: {
-        "login": "",
-        "password": ""
+        login: "",
+        password: "",
       },
     };
   },
@@ -178,13 +211,14 @@ export default {
       this.login.showPassword = this.login.showPassword ? false : true;
     },
     async cadastrarUsuario() {
+      console.log(successCadastro);
       let successCadastro = false;
       try {
-        successCadastro =  await cadastrarUsuario(this.form)
+        successCadastro = await cadastrarUsuario(this.form);
       } catch (e) {
         this.successCadastro = false;
       }
-      if(successCadastro) {
+      if (successCadastro) {
         this.modalShow = false;
         this.successCadastro = true;
         this.clearCacheInputs();
@@ -192,32 +226,30 @@ export default {
       console.log(this.form);
     },
     clearCacheInputs() {
-      this.form.login = "",
-      this.form.password = "",
-      this.form.name = "",
-      this.form.gender = "",
-      this.form.apartment = "",
-      this.form.phoneNumber = ""
-      // this.successCadastro = null;
+      (this.form.login = ""),
+        (this.form.password = ""),
+        (this.form.name = ""),
+        (this.form.gender = ""),
+        (this.form.apartment = ""),
+        (this.form.phoneNumber = "");
     },
     async logarUsuario() {
-      let successLogin = false;
+      let response = false;
       try {
-        successLogin = await login(this.formLogin)
+        response = await login(this.formLogin);
       } catch (e) {
-       console.log(this.formLogin)
+        console.log(this.formLogin);
       }
 
-      if(successLogin) {
-        localStorage.setItem('token', successLogin.data.token)
-        this.$router.push('/Home')
-        console.log(successLogin);
+      if (response) {
+        localStorage.setItem("token", response.data.token);
+        this.$router.push("/Home");
       }
     },
     recuperarSenha() {
       this.modalShow2 = false;
-      alert('Uma nova senha será envida para seu e-mail.');
-    }
+      alert("Uma nova senha será envida para seu e-mail.");
+    },
   },
 };
 </script>
