@@ -1,7 +1,9 @@
-import axios from 'axios'
+import axios from "axios";
 
-export default () => axios.create({
-    baseURL: 'http://localhost:8082/'
-})
+export default () =>
+  axios.create({
+    baseURL: "http://localhost:8082/",
+  });
 
-axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token');
+axios.defaults.headers.common["Authorization"] =
+  "Bearer " + localStorage.getItem("token");
