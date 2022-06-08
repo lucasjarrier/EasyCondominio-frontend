@@ -4,8 +4,35 @@
     border-color: #b63781;
 }
 
+.btn.btn-primary:focus {
+    background-color: #000;
+    border-color: #b63781 ;
+}
+
 .btn-primary:hover {
     color: white;
     background-color: #da5aa4;
     border-color: #da5aa4;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: #b63781;
+    font-weight: bold;
+}
+
+.navbar-light .navbar-nav .show > .nav-link, .navbar-light .navbar-nav .active > .nav-link, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .nav-link.active {
+    color: #b63781;
+}
+
+.dropdown-item {
+    display: block;
+    width: 100%;
+    padding: 0.25rem 1.5rem;
+    clear: both;
+    font-weight: 400;
+    color: #212529;
+    text-align: inherit;
+    white-space: nowrap;
+    background-color: transparent;
+    border: 0;
 }

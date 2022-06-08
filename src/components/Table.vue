@@ -10,19 +10,27 @@
     >
       <template v-slot:cell(reserv)="data">
         <div v-if="!data.item.idUser">
-          <b-button @click="reservarHorario(data)" variant="success">
+          <b-button
+            class="custom-button"
+            @click="reservarHorario(data)"
+            variant="success"
+          >
             Reservar
           </b-button>
         </div>
         <div v-if="data.item.idUser == idUserLogado">
-          <b-button @click="cancelarReserva(data)" variant="danger">
+          <b-button
+            class="custom-button"
+            @click="cancelarReserva(data)"
+            variant="danger"
+          >
             Cancelar
           </b-button>
         </div>
         <div
           v-if="data.item.idUser != idUserLogado && data.item.idUser != null"
         >
-          <b-button disabled> Reservado </b-button>
+          <b-button class="custom-button" disabled> Reservado </b-button>
         </div>
       </template>
     </b-table>
@@ -84,4 +92,8 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/assets/styles/_variables.scss";
+
+.custom-button {
+  width: 95px;
+}
 </style>
