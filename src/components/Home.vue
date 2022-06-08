@@ -1,7 +1,7 @@
 <template>
   <body>
     <div v-if="this.usuario">
-      <b-navbar toggleable="lg">
+      <b-navbar toggleable="lg" class="border" style="border-color: #000">
         <b-navbar-brand href="#" @click="activeTabIndex()"
           ><b>Olá {{ this.usuario.name }} </b>
         </b-navbar-brand>
@@ -26,7 +26,7 @@
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
-      <div v-if="this.activeIndex == 'AREA_COMUM'" class="border">
+      <div v-if="this.activeIndex == 'AREA_COMUM'">
         <AreasComuns />
       </div>
       <div v-if="this.activeIndex == 'XABLAU'">
@@ -44,7 +44,7 @@
 import { getUserByToken } from "@/services/usuarioService";
 import { logout } from "@/services/authService";
 import AreasComuns from "@/components/AreasComuns";
-import Table from "@/components/ListagemReservas";
+import Table from "@/components/Table";
 
 export default {
   name: "Home",
@@ -60,11 +60,12 @@ export default {
   },
   methods: {
     async logout() {
-      localStorage.removeItem("token");
       let response = await logout();
       {
         if (response) {
           this.usuario = null;
+          localStorage.removeItem("token");
+          localStorage.removeItem("idUser");
           this.$router.push("/");
         }
       }

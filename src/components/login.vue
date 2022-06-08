@@ -243,6 +243,7 @@ export default {
 
       if (response) {
         localStorage.setItem("token", response.data.token);
+        localStorage.setItem("idUser", response.data.idUser);
         this.$router.push("/Home");
       }
     },
@@ -250,6 +251,9 @@ export default {
       this.modalShow2 = false;
       alert("Uma nova senha será envida para seu e-mail.");
     },
+  },
+  mounted() {
+    localStorage.clear();
   },
 };
 </script>

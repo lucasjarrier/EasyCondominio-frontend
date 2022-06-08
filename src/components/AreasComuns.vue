@@ -3,7 +3,7 @@
     <h2>Listagem de Áreas Comuns</h2>
     <b-container class="bv-example-row mb-3">
       <b-row v-if="listaAreas.length" :cols="this.quantidadeAreas">
-        <div v-for="item in listaAreas" :key="item.id">
+        <div v-for="(item, index) in listaAreas" :key="item.id">
           <b-col>
             <b-card
               :title="item.name"
@@ -23,33 +23,41 @@
               <b-button
                 href="#"
                 variant="primary"
-                @click="handleSelect(item.id)"
+                @click="handleSelect(index, item.id)"
                 >Exibir Detalhes</b-button
               >
             </b-card>
           </b-col>
         </div>
       </b-row>
-      <b-row class="custom-border">
-        <h3>Detalhes da {{ this.listaAreas[0].name }}</h3>
-      </b-row>
-      <b-row>
-        <b-col>
-          <b class="margin-bottom">Reservas Confirmadas</b>
-          <Table />
-        </b-col>
-        <b-col>
-          <b>Reservas Pendentes</b>
-          <Table />
-        </b-col>
-      </b-row>
+      <div v-if="this.activeArea != null && this.listaAreas.length > 0">
+        <b-row class="custom-border">
+          <h3>Detalhes da {{ this.listaAreas[this.activeArea].name }}</h3>
+        </b-row>
+        <b-row>
+          <b-col>
+            <b class="margin-bottom">Reservas Confirmadas</b>
+            <Table
+              :items="this.reservasConfirmadas"
+              :idUserLogado="this.idUserLogado"
+            />
+          </b-col>
+        </b-row>
+        <!-- <b-row style="margin-top: 20px">
+          <b-col>
+            <b>Reservas Pendentes</b>
+            <Table :items="this.reservasPendentes" />
+          </b-col>
+        </b-row> -->
+      </div>
     </b-container>
   </div>
 </template>
 
 <script>
 import { getAllAreas } from "@/services/areacomunService";
-import Table from "@/components/ListagemReservas";
+import Table from "@/components/Table";
+import { getReservasByIdArea } from "@/services/reservaService";
 
 export default {
   name: "AreasComuns",
@@ -62,15 +70,22 @@ export default {
       quantidadeAreas: 3,
       modalShow: false,
       activeArea: null,
+      idArea: null,
+      reservasConfirmadas: [],
+      reservasPendentes: {},
+      idUserLogado: null,
     };
   },
   methods: {
-    handleSelect(index) {
+    async handleSelect(index, idArea) {
       this.activeArea = index;
-      console.log(this.listaAreas);
+      this.idArea = idArea;
+      let response = await getReservasByIdArea(idArea);
+      this.reservasConfirmadas = response.data;
     },
   },
   async mounted() {
+    this.idUserLogado = localStorage.getItem("idUser");
     const response = await getAllAreas();
     if (response) {
       this.listaAreas = response.data;
@@ -94,6 +109,6 @@ h2 {
 
 .custom-border {
   margin: 15px 0;
-  border-top: 1px solid $primary-color;
+  border-top: 1px solid #000;
 }
 </style>
