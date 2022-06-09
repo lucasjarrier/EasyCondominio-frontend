@@ -30,32 +30,34 @@
           </b-col>
         </div>
       </b-row>
-      <div v-if="this.activeArea != null && this.listaAreas.length > 0">
-        <b-row class="custom-border">
-          <h3>Detalhes da {{ this.listaAreas[this.activeArea].name }}</h3>
-        </b-row>
-        <b-row>
-          <b-col>
-            <b class="margin-bottom">Reservas Confirmadas</b>
-            <Table
-              :items="this.reservasConfirmadas"
-              :idUserLogado="this.idUserLogado"
-            />
-          </b-col>
-        </b-row>
-        <!-- <b-row style="margin-top: 20px">
+      <el-card>
+        <div v-if="this.activeArea != null && this.listaAreas.length > 0">
+          <b-row class="custom-border">
+            <h3>Detalhes da {{ this.listaAreas[this.activeArea].name }}</h3>
+          </b-row>
+          <b-row>
+            <b-col>
+              <b class="margin-bottom">Reservas Confirmadas</b>
+              <Table
+                :items="this.reservasConfirmadas"
+                :idUserLogado="this.idUserLogado"
+              />
+            </b-col>
+          </b-row>
+          <!-- <b-row style="margin-top: 20px">
           <b-col>
             <b>Reservas Pendentes</b>
             <Table :items="this.reservasPendentes" />
           </b-col>
         </b-row> -->
-      </div>
+        </div>
+      </el-card>
     </b-container>
   </div>
 </template>
 
 <script>
-import { getAllAreas } from "@/services/areacomunService";
+import { getAllAreas } from "@/services/areaComumService";
 import Table from "@/components/Table";
 import { getReservasByIdArea } from "@/services/reservaService";
 

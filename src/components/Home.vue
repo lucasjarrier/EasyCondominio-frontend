@@ -2,8 +2,11 @@
   <body>
     <div v-if="this.usuario">
       <b-navbar toggleable="lg" class="border" style="border-color: #000">
-        <b-navbar-brand href="#" @click="activeTabIndex()"
+        <b-navbar-brand v-if="!this.isAdmin" href="#" @click="activeTabIndex()"
           ><b>Olá {{ this.usuario.name }} </b>
+        </b-navbar-brand>
+        <b-navbar-brand v-else href="#" @click="activeTabIndex()"
+          ><b>Bem vindo, Administrador! </b>
         </b-navbar-brand>
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
         <b-collapse id="nav-collapse" is-nav>
@@ -33,7 +36,10 @@
         <h2>Olá eu sou o quadro de avisos!</h2>
       </div>
       <div v-if="this.activeIndex == 'DEFAULT'">
-        <Table />
+        <div v-if="!this.isAdmin"><Table /></div>
+        <div v-else>
+          <Admin />
+        </div>
       </div>
     </div>
     <div v-else>Você não está logado, efetue o login!</div>
@@ -45,6 +51,7 @@ import { getUserByToken } from "@/services/usuarioService";
 import { logout } from "@/services/authService";
 import AreasComuns from "@/components/AreasComuns";
 import Table from "@/components/Table";
+import Admin from "@/components/AdminDashboard";
 
 export default {
   name: "Home",
@@ -52,11 +59,13 @@ export default {
     return {
       usuario: {},
       activeIndex: "DEFAULT",
+      isAdmin: true,
     };
   },
   components: {
     AreasComuns,
     Table,
+    Admin,
   },
   methods: {
     async logout() {
