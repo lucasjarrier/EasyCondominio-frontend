@@ -11,3 +11,7 @@ export const getUserByToken = async (token) => {
 export const getAllUsers = async () => {
   return http().get("/user");
 };
+
+export const deletarUserById = (idUser) => {
+  return http().delete(`/user/${idUser}`);
+};

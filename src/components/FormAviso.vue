@@ -79,7 +79,7 @@ export default {
           },
           {
             min: 5,
-            max: 20,
+            max: 30,
             message: "Insira entre 5 e 20 caracteres!",
             trigger: "blur",
           },

@@ -1,56 +1,123 @@
 <template>
   <div>
-    <el-table
-      :data="
-        tableData.filter(
-          (data) =>
-            !search ||
-            (tipo == 'aviso'
-              ? data.title.toLowerCase().includes(search.toLowerCase())
-              : data.name.toLowerCase().includes(search.toLowerCase()))
-        )
-      "
-      style="width: 100%"
-    >
-      <div div v-for="item in columnsTable" :key="item.codigo">
-        <el-table-column :label="item.descricao" :prop="item.codigo">
+    <!-- TABELA DAS RESERVAS  -->
+    <div v-if="tableDatas">
+      <el-table
+        :data="
+          tableDatas.filter(
+            (data) =>
+              !search ||
+              (tipo == 'aviso'
+                ? data.title.toLowerCase().includes(search.toLowerCase())
+                : data.name.toLowerCase().includes(search.toLowerCase()))
+          )
+        "
+        style="width: 100%"
+        height="320"
+      >
+        <div div v-for="item in columnsTable" :key="item.codigo">
+          <el-table-column :label="item.descricao" :prop="item.codigo">
+          </el-table-column>
+        </div>
+        <el-table-column align="right">
+          <template slot="header" slot-scope="scope">
+            <div v-if="scope"></div>
+            <div v-if="comBusca">
+              <el-input
+                v-model="search"
+                size="mini"
+                placeholder="Digite para pesquisar"
+              />
+            </div>
+          </template>
+          <template slot-scope="scope">
+            <div v-if="options">
+              <el-button
+                size="mini"
+                @click="extraButton(scope.$index, scope.row)"
+                v-if="extraButton"
+              >
+                {{ extraButtonName }}</el-button
+              >
+              <el-button
+                size="mini"
+                type="danger"
+                @click="handleDelete(scope.$index, scope.row)"
+                >Cancelar</el-button
+              >
+            </div>
+          </template>
         </el-table-column>
-      </div>
-      <el-table-column align="right">
-        <template slot="header" slot-scope="scope">
-          <div v-if="scope"></div>
-          <div v-if="comBusca">
-            <el-input
-              v-model="search"
-              size="mini"
-              placeholder="Digite para pesquisar"
-            />
-          </div>
-        </template>
-        <template slot-scope="scope">
-          <div v-if="options">
-            <el-button
-              size="mini"
-              type="danger"
-              @click="handleDelete(scope.$index, scope.row)"
-              >Delete</el-button
-            >
-          </div>
-        </template>
-      </el-table-column>
-    </el-table>
+      </el-table>
+    </div>
+    <!-- DEMAIS TABELAS -->
+    <div v-else>
+      <el-table
+        :data="
+          tableDataPrincipal.filter(
+            (data) =>
+              !search ||
+              (tipo == 'aviso'
+                ? data.title.toLowerCase().includes(search.toLowerCase())
+                : data.name.toLowerCase().includes(search.toLowerCase()))
+          )
+        "
+        style="width: 100%"
+      >
+        <div div v-for="item in columnsTable" :key="item.codigo">
+          <el-table-column :label="item.descricao" :prop="item.codigo">
+          </el-table-column>
+        </div>
+        <el-table-column align="right">
+          <template slot="header" slot-scope="scope">
+            <div v-if="scope"></div>
+            <div v-if="comBusca">
+              <el-input
+                v-model="search"
+                size="mini"
+                placeholder="Digite para pesquisar"
+              />
+            </div>
+          </template>
+          <template slot-scope="scope">
+            <div v-if="options">
+              <el-button
+                size="mini"
+                @click="extraButton(scope.$index, scope.row)"
+                v-if="extraButton"
+              >
+                {{ extraButtonName }}</el-button
+              >
+              <el-button
+                size="mini"
+                type="danger"
+                @click="handleDelete(scope.$index, scope.row)"
+                >Excluir</el-button
+              >
+            </div>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
   </div>
 </template>
 
 <script>
-import { getAllUsers } from "@/services/usuarioService";
-import { getAllAreas } from "@/services/areaComumService";
+import { getAllUsers, deletarUserById } from "@/services/usuarioService";
+import { getAllAreas, deletarAreaById } from "@/services/areaComumService";
 import { getAllAvisos, deletarAvisoById } from "@/services/avisoService";
-import { getReservasByIdArea } from "@/services/reservaService";
+import {
+  getReservasByIdArea,
+  cancelarReservasById,
+} from "@/services/reservaService";
 
 export default {
   name: "TableElement",
   props: {
+    tableDatas: {
+      type: Array,
+      required: false,
+    },
     comBusca: {
       type: Boolean,
       required: false,
@@ -64,29 +131,64 @@ export default {
       type: String,
       required: true,
     },
+    extraButton: {
+      type: Function,
+      required: false,
+    },
+    extraButtonName: {
+      type: String,
+      required: false,
+    },
   },
   data() {
     return {
-      tableData: [],
+      tableDataPrincipal: [],
       columnsTable: [],
       search: "",
+      idArea: 0,
     };
   },
   methods: {
     handleEdit(index, row) {
       console.log(index, row);
     },
-    handleDelete(index, row) {
-      console.log(row.id);
-      let response = deletarAvisoById(row.id);
+    async handleDelete(index, row) {
+      let response = null;
+      if (this.tipo === "aviso") {
+        response = await deletarAvisoById(row.id);
+      } else if (this.tipo === "user") {
+        response = await deletarUserById(row.id);
+      } else if (this.tipo === "area") {
+        response = await deletarAreaById(row.id);
+      } else if (this.tipo === "reserva") {
+        response = await cancelarReservasById(row.idReserva);
+        if (response) {
+          this.idArea = row.idArea;
+        }
+      }
+      /**
+       * Se a requisição funcionou, então chamamos novamente o atualizar dados.
+       */
       if (response) {
         this.atualizaDados();
       }
     },
     async atualizaDados() {
-      let response = await getAllAvisos();
-      if (response) {
-        this.tableData = response.data;
+      let response = null;
+      if (this.tipo === "aviso") {
+        response = await getAllAvisos();
+      } else if (this.tipo === "user") {
+        response = await getAllUsers();
+      } else if (this.tipo === "area") {
+        response = await getAllAreas();
+      } else if (this.tipo === "reserva") {
+        response = await getReservasByIdArea(this.idArea);
+      }
+
+      if (this.tableDatas && response) {
+        this.tableDatas = response.data;
+      } else if (response) {
+        this.tableDataPrincipal = response.data;
       }
     },
   },
@@ -112,22 +214,18 @@ export default {
       response = await getAllAreas();
       this.columnsTable = [
         { codigo: "name", descricao: "Nome" },
-        { codigo: "description", descricao: "Descrição" },
-        { codigo: "tempoPorReserva", descricao: "Tempo por Reserva" },
         { codigo: "operatingTime", descricao: "Horário" },
       ];
     } else if (this.tipo === "reserva") {
-      response = await getReservasByIdArea(0);
       this.columnsTable = [
         { codigo: "userName", descricao: "Morador" },
         { codigo: "userApto", descricao: "Apartamento" },
         { codigo: "hrInicioReserva", descricao: "Inicio" },
         { codigo: "hrFimReserva", descricao: "Fim" },
       ];
-      this.tipoBusca = "userName";
     }
     if (response) {
-      this.tableData = response.data;
+      this.tableDataPrincipal = response.data;
     }
   },
 };

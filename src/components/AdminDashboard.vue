@@ -37,14 +37,23 @@
             <el-col :span="12">
               <el-row class="custom-width2">
                 <el-card>
-                  <TableElement options="true" tipo="area" />
+                  <TableElement
+                    options="true"
+                    tipo="area"
+                    :extraButton="this.customButtonArea"
+                    extraButtonName="Reservas"
+                  />
                 </el-card>
               </el-row>
             </el-col>
             <el-col :span="12"
               ><el-row class="custom-width2">
                 <el-card>
-                  <TableElement options="true" tipo="reserva" />
+                  <TableElement
+                    options="true"
+                    tipo="reserva"
+                    :tableDatas="this.itens"
+                  />
                 </el-card>
               </el-row>
               <el-row class="custom-button2">
@@ -76,12 +85,18 @@
 <script>
 import TableElement from "@/components/TableElement";
 import FormAviso from "@/components/FormAviso";
+import {
+  criarReservasDiarias,
+  excluirReservasDiarias,
+  getReservasByIdArea,
+} from "@/services/reservaService";
 
 export default {
   data() {
     return {
       activeName: "1",
       dialogTableVisible: false,
+      itens: [],
     };
   },
   components: {
@@ -89,15 +104,23 @@ export default {
     FormAviso,
   },
   methods: {
-    tempMethod() {
-      console.log("TODO Criar Aviso!");
-      this.criarAviso = true;
+    async criarReservasAuto() {
+      let response = await criarReservasDiarias();
+      if (response) {
+        console.log("Reservas Criadas!");
+      }
     },
-    criarReservasAuto() {
-      console.log("TODO Criar!");
+    async excluirReservas() {
+      let response = await excluirReservasDiarias();
+      if (response) {
+        console.log("Reservas Excluidas!");
+      }
     },
-    excluirReservas() {
-      console.log("TODO Excluir!");
+    async customButtonArea(index, row) {
+      let response = await getReservasByIdArea(row.id);
+      if (response) {
+        this.itens = response.data;
+      }
     },
   },
 };

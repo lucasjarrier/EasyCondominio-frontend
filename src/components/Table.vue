@@ -83,9 +83,6 @@ export default {
         this.items = response.data;
       }
     },
-    printarData(data) {
-      console.log(data);
-    },
   },
 };
 </script>
