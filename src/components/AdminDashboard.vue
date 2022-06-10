@@ -13,14 +13,7 @@
           <el-row>
             <el-card>
               <el-row>
-                <TableElement
-                  colunaA="Titulo"
-                  colunaB="Descrição"
-                  colunaC="Importante"
-                  colunaD="Expira"
-                  options="true"
-                  tipo="aviso"
-                />
+                <TableElement options="true" tipo="aviso" :comBusca="true" />
               </el-row>
             </el-card>
             <el-row class="custom-button2">
@@ -33,7 +26,9 @@
         <el-collapse-item title="Listagem de Moradores" name="2">
           <el-row>
             <el-card>
-              <el-row><TableElement tipo="rola" /> </el-row>
+              <el-row
+                ><TableElement options="true" tipo="user" :comBusca="true" />
+              </el-row>
             </el-card>
           </el-row>
         </el-collapse-item>
@@ -42,14 +37,14 @@
             <el-col :span="12">
               <el-row class="custom-width2">
                 <el-card>
-                  <TableElement tipo="pinto" />
+                  <TableElement options="true" tipo="area" />
                 </el-card>
               </el-row>
             </el-col>
             <el-col :span="12"
               ><el-row class="custom-width2">
                 <el-card>
-                  <TableElement tipo="xonga" />
+                  <TableElement options="true" tipo="reserva" />
                 </el-card>
               </el-row>
               <el-row class="custom-button2">
@@ -72,11 +67,7 @@
         </el-collapse-item>
       </el-collapse>
     </el-card>
-    <el-dialog
-      title="Criar Aviso"
-      :visible.sync="dialogTableVisible"
-      width="50%"
-    >
+    <el-dialog :visible.sync="dialogTableVisible" width="50%">
       <FormAviso />
     </el-dialog>
   </div>

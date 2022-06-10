@@ -7,3 +7,7 @@ export const cadastrarAviso = async (formulario) => {
 export const getAllAvisos = async () => {
   return http().get("/announcement");
 };
+
+export const deletarAvisoById = (idAviso) => {
+  return http().delete(`/announcement/${idAviso}`);
+};
