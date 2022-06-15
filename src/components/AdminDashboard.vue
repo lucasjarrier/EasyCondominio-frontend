@@ -45,6 +45,12 @@
                   />
                 </el-card>
               </el-row>
+              <el-button
+                class="custom-button2"
+                @click="dialogTableVisible2 = true"
+              >
+                Criar Área Comum
+              </el-button>
             </el-col>
             <el-col :span="12"
               ><el-row class="custom-width2">
@@ -79,6 +85,78 @@
     <el-dialog :visible.sync="dialogTableVisible" width="50%">
       <FormAviso />
     </el-dialog>
+    <el-dialog
+      :visible.sync="dialogTableVisible2"
+      width="50%"
+      title="Criar Área Comum"
+    >
+      <el-form
+        :rules="rules"
+        ref="formArea"
+        :model="formArea"
+        label-width="150px"
+        size="mini"
+        label-position="top"
+      >
+        <el-row>
+          <el-col :span="8">
+            <el-form-item label="Nome" prop="name">
+              <el-input v-model="formArea.name" size="small"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="16" class="custom-margin-left">
+            <el-form-item label="Foto">
+              <b-form-file
+                v-model="photo"
+                :state="Boolean(formArea.photo)"
+                placeholder="Escolha uma foto ou Arraste..."
+                drop-placeholder="Solte aqui..."
+              ></b-form-file>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-form-item label="Descrição" prop="description">
+          <el-input type="textarea" v-model="formArea.description"></el-input>
+        </el-form-item>
+        <el-row>
+          <el-col :span="8"
+            ><el-form-item label="Tempo por Reserva" prop="tempoPorReserva">
+              <el-input-number
+                size="mini"
+                v-model="formArea.tempoPorReserva"
+                :min="1"
+                :max="1"
+              ></el-input-number>
+            </el-form-item>
+          </el-col>
+          <el-col :span="16">
+            <el-form-item label="Horário de Funcionamento">
+              <el-radio-group
+                v-model="formArea.operatingTime"
+                size="mini"
+                prop="operatingTime"
+              >
+                <div class="custom-radio">
+                  <el-radio-button label="MATUTINO"> Manhã</el-radio-button>
+                  <el-radio-button label="VESPERTINO"> Tarde</el-radio-button>
+                  <el-radio-button label="DIURNO"> Integral</el-radio-button>
+                </div>
+              </el-radio-group>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-form-item size="large" class="custom-button">
+          <el-button
+            type="primary"
+            @click="submitForm('formArea')"
+            :disabled="!formArea.description || !formArea.name"
+            >Criar Área</el-button
+          >
+          <el-button>Cancelar</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 
@@ -90,13 +168,45 @@ import {
   excluirReservasDiarias,
   getReservasByIdArea,
 } from "@/services/reservaService";
+import { criarAreaComum } from "@/services/areaComumService";
 
 export default {
   data() {
     return {
       activeName: "1",
       dialogTableVisible: false,
+      dialogTableVisible2: false,
       itens: [],
+      formArea: {
+        name: "",
+        description: "",
+        operatingTime: "DIURNO",
+        tempoPorReserva: 1,
+      },
+      photo: [],
+      rules: {
+        name: [
+          {
+            required: true,
+            message: "É necessario informar nome!",
+            trigger: "blur",
+          },
+          {
+            min: 4,
+            max: 25,
+            message: "Insira entre 4 e 25 caracteres!",
+            trigger: "blur",
+          },
+        ],
+
+        description: [
+          {
+            required: true,
+            message: "É necessario adicionar uma descrição!",
+            trigger: "blur",
+          },
+        ],
+      },
     };
   },
   components: {
@@ -104,6 +214,19 @@ export default {
     FormAviso,
   },
   methods: {
+    submitForm(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.criarAreaComum(this.formArea);
+        }
+      });
+    },
+    async criarAreaComum(form) {
+      let response = await criarAreaComum(form);
+      if (response) {
+        window.location.reload(true);
+      }
+    },
     async criarReservasAuto() {
       let response = await criarReservasDiarias();
       if (response) {
@@ -144,5 +267,15 @@ export default {
 .custom-button {
   display: flex;
   justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.custom-radio {
+  display: flex;
+  justify-content: space-between;
+}
+
+.custom-margin-left {
+  padding-left: 2%;
 }
 </style>

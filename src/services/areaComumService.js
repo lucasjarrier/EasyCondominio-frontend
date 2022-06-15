@@ -7,3 +7,7 @@ export const getAllAreas = async () => {
 export const deletarAreaById = (idArea) => {
   return http().delete(`/area-comum/${idArea}`);
 };
+
+export const criarAreaComum = async (formArea) => {
+  return http().post("/area-comum", formArea);
+};

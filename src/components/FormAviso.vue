@@ -8,6 +8,7 @@
         ref="formAviso"
         class="demo-ruleForm"
         label-width="120px"
+        label-position="left"
       >
         <el-form-item label="Titulo" prop="title" class="align-item">
           <el-input v-model="formAviso.title"></el-input>

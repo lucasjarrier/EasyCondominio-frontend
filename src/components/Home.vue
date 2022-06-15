@@ -2,12 +2,12 @@
   <body>
     <div v-if="this.usuario">
       <b-navbar toggleable="lg" class="border" style="border-color: #000">
-        <b-navbar-brand v-if="!this.isAdmin" href="#" @click="activeTabIndex()"
+        <b-navbar-brand v-if="this.isAdmin" href="#" @click="activeTabIndex()"
           ><b>Olá {{ this.usuario.name }} </b>
         </b-navbar-brand>
-        <b-navbar-brand v-else href="#" @click="activeTabIndex()"
+        <!-- <b-navbar-brand v-else href="#" @click="activeTabIndex()"
           ><b>Bem vindo, Administrador! </b>
-        </b-navbar-brand>
+        </b-navbar-brand> -->
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
