@@ -107,8 +107,8 @@
           <el-col :span="16" class="custom-margin-left">
             <el-form-item label="Foto">
               <b-form-file
-                v-model="photo"
-                :state="Boolean(formArea.photo)"
+                v-model="formArea.photoArea"
+                :state="Boolean(formArea.photoArea)"
                 placeholder="Escolha uma foto ou Arraste..."
                 drop-placeholder="Solte aqui..."
               ></b-form-file>
@@ -180,10 +180,13 @@ export default {
       formArea: {
         name: "",
         description: "",
+        photoArea: [],
         operatingTime: "DIURNO",
         tempoPorReserva: 1,
       },
-      photo: [],
+      formPhoto: {
+        file: [],
+      },
       rules: {
         name: [
           {

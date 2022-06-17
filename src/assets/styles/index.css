@@ -1,4 +1,4 @@
-.btn-primary {
+/* .btn-primary {
     color: white;
     background-color: #b63781;
     border-color: #b63781;
@@ -7,9 +7,9 @@
 .btn.btn-primary:focus {
     background-color: #000;
     border-color: #b63781 ;
-}
+} */
 
-.btn-primary:hover {
+/* .btn-primary:hover {
     color: white;
     background-color: #da5aa4;
     border-color: #da5aa4;
@@ -22,7 +22,7 @@
 
 .navbar-light .navbar-nav .show > .nav-link, .navbar-light .navbar-nav .active > .nav-link, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .nav-link.active {
     color: #b63781;
-}
+} */
 
 .dropdown-item {
     display: block;

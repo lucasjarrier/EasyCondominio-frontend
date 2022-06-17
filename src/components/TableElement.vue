@@ -15,7 +15,7 @@
         style="width: 100%"
         height="320"
       >
-        <div div v-for="item in columnsTable" :key="item.codigo">
+        <div v-for="item in columnsTable" :key="item.codigo">
           <el-table-column :label="item.descricao" :prop="item.codigo">
           </el-table-column>
         </div>

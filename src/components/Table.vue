@@ -13,6 +13,7 @@
           <b-button
             class="custom-button"
             @click="reservarHorario(data)"
+            pill
             variant="success"
           >
             Reservar
@@ -22,6 +23,7 @@
           <b-button
             class="custom-button"
             @click="cancelarReserva(data)"
+            pill
             variant="danger"
           >
             Cancelar
@@ -30,7 +32,7 @@
         <div
           v-if="data.item.idUser != idUserLogado && data.item.idUser != null"
         >
-          <b-button class="custom-button" disabled> Reservado </b-button>
+          <b-button pill class="custom-button" disabled> Reservado </b-button>
         </div>
       </template>
     </b-table>

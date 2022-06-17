@@ -1,7 +1,7 @@
 <template>
-  <div class="background">
+  <div>
     <h2>Listagem de Áreas Comuns</h2>
-    <b-container class="bv-example-row mb-3">
+    <el-card class="custom-margin">
       <b-row v-if="listaAreas.length" :cols="this.quantidadeAreas">
         <div v-for="(item, index) in listaAreas" :key="item.id">
           <b-col>
@@ -14,15 +14,15 @@
               "
               img-alt="Image"
               img-top
-              style="width: 17rem; border-color: rgb(94, 94, 94)"
-              class="mb-2"
+              style="width: 17rem"
             >
               <b-card-text>
                 {{ item.description }}
               </b-card-text>
               <b-button
                 href="#"
-                variant="primary"
+                pill
+                variant="outline-danger"
                 @click="handleSelect(index, item.id)"
                 >Exibir Detalhes</b-button
               >
@@ -30,29 +30,23 @@
           </b-col>
         </div>
       </b-row>
-      <el-card>
-        <div v-if="this.activeArea != null && this.listaAreas.length > 0">
-          <b-row class="custom-border">
-            <h3>Detalhes da {{ this.listaAreas[this.activeArea].name }}</h3>
-          </b-row>
-          <b-row>
-            <b-col>
-              <b class="margin-bottom">Reservas Confirmadas</b>
-              <Table
-                :items="this.reservasConfirmadas"
-                :idUserLogado="this.idUserLogado"
-              />
-            </b-col>
-          </b-row>
-          <!-- <b-row style="margin-top: 20px">
+    </el-card>
+    <div v-if="this.activeArea != null && this.listaAreas.length > 0">
+      <el-card class="margin-top custom-margin">
+        <b-row class="custom-label">
+          <h3>Detalhes da {{ this.listaAreas[this.activeArea].name }}</h3>
+        </b-row>
+        <b-row>
           <b-col>
-            <b>Reservas Pendentes</b>
-            <Table :items="this.reservasPendentes" />
+            <b class="margin-bottom">Reservas Confirmadas</b>
+            <Table
+              :items="this.reservasConfirmadas"
+              :idUserLogado="this.idUserLogado"
+            />
           </b-col>
-        </b-row> -->
-        </div>
+        </b-row>
       </el-card>
-    </b-container>
+    </div>
   </div>
 </template>
 
@@ -69,7 +63,7 @@ export default {
   data() {
     return {
       listaAreas: [],
-      quantidadeAreas: 3,
+      quantidadeAreas: 0,
       modalShow: false,
       activeArea: null,
       idArea: null,
@@ -100,7 +94,8 @@ export default {
 <style lang="scss" scoped>
 @import "@/assets/styles/_variables.scss";
 
-h2 {
+h2,
+h3 {
   justify-content: center;
   align-items: center;
   display: flex;
@@ -109,8 +104,17 @@ h2 {
   color: $primary-color;
 }
 
-.custom-border {
-  margin: 15px 0;
-  border-top: 1px solid #000;
+.margin-top {
+  margin-top: 3%;
+}
+
+.custom-label {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.custom-margin {
+  margin: 20px;
 }
 </style>

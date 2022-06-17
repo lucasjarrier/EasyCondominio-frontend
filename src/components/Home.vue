@@ -33,7 +33,7 @@
         <AreasComuns />
       </div>
       <div v-if="this.activeIndex == 'XABLAU'">
-        <h2>Olá eu sou o quadro de avisos!</h2>
+        <QuadroAvisos />
       </div>
       <div v-if="this.activeIndex == 'DEFAULT'">
         <div v-if="!this.isAdmin"><Table /></div>
@@ -52,6 +52,7 @@ import { logout } from "@/services/authService";
 import AreasComuns from "@/components/AreasComuns";
 import Table from "@/components/Table";
 import Admin from "@/components/AdminDashboard";
+import QuadroAvisos from "@/components/QuadroAvisos";
 
 export default {
   name: "Home",
@@ -66,6 +67,7 @@ export default {
     AreasComuns,
     Table,
     Admin,
+    QuadroAvisos,
   },
   methods: {
     async logout() {

@@ -211,7 +211,6 @@ export default {
       this.login.showPassword = this.login.showPassword ? false : true;
     },
     async cadastrarUsuario() {
-      console.log(successCadastro);
       let successCadastro = false;
       try {
         successCadastro = await cadastrarUsuario(this.form);
@@ -223,7 +222,6 @@ export default {
         this.successCadastro = true;
         this.clearCacheInputs();
       }
-      console.log(this.form);
     },
     clearCacheInputs() {
       (this.form.login = ""),
@@ -238,7 +236,7 @@ export default {
       try {
         response = await login(this.formLogin);
       } catch (e) {
-        console.log(this.formLogin);
+        alert(e);
       }
 
       if (response) {
