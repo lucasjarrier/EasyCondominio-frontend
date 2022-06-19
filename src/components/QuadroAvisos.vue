@@ -1,83 +1,57 @@
 <template>
   <div id="app">
     <template>
-      <el-button @click="resetDateFilter">reset date filter</el-button>
-      <el-button @click="clearFilter">reset all filters</el-button>
-      <el-table ref="filterTable" :data="tableData" style="width: 100%">
-        <el-table-column
-          prop="date"
-          label="Date"
-          sortable
-          width="180"
-          column-key="date"
-          :filters="[
-            { text: '2016-05-01', value: '2016-05-01' },
-            { text: '2016-05-02', value: '2016-05-02' },
-            { text: '2016-05-03', value: '2016-05-03' },
-            { text: '2016-05-04', value: '2016-05-04' },
-          ]"
-          :filter-method="filterHandler"
-        >
-        </el-table-column>
-        <el-table-column prop="name" label="Name" width="180">
-        </el-table-column>
-        <el-table-column prop="address" label="Address" :formatter="formatter">
-        </el-table-column>
-        <el-table-column
-          prop="tag"
-          label="Tag"
-          width="100"
-          :filters="[
-            { text: 'Home', value: 'Home' },
-            { text: 'Office', value: 'Office' },
-          ]"
-          :filter-method="filterTag"
-          filter-placement="bottom-end"
-        >
-          <template slot-scope="scope">
-            <el-tag
-              :type="scope.row.tag === 'Home' ? 'primary' : 'success'"
-              disable-transitions
-              >{{ scope.row.tag }}</el-tag
+      <el-card class="custom-width">
+        <el-row>
+          <el-col>
+            <h3>Listagem de Avisos</h3>
+          </el-col>
+          <el-col class="custom-radio">
+            <el-radio-group
+              v-model="filtroAvisos"
+              size="mini"
+              @change="orderTableByFilter"
             >
-          </template>
-        </el-table-column>
-      </el-table>
+              <el-radio-button label="TODOS"> Todos</el-radio-button>
+              <el-radio-button label="IMPORTANTE"> Importante</el-radio-button>
+              <el-radio-button label="NUNCA_EXPIRA">
+                Não Expira</el-radio-button
+              >
+            </el-radio-group>
+          </el-col>
+        </el-row>
+        <el-table
+          ref="filterTable"
+          :data="tableDataFiltred"
+          style="width: 100%"
+        >
+          <el-table-column
+            prop="dtCreated"
+            label="Data de Criação"
+            sortable
+            width="180"
+            column-key="date"
+          >
+          </el-table-column>
+          <el-table-column prop="title" label="Titulo" width="200">
+          </el-table-column>
+          <el-table-column prop="description" label="Descrição" width="350">
+          </el-table-column>
+        </el-table>
+      </el-card>
     </template>
   </div>
 </template>
 
 <script>
+import { getAllAvisos } from "@/services/avisoService";
 export default {
   name: "QuadroAvisos",
   data() {
     return {
-      tableData: [
-        {
-          date: "2016-05-03",
-          name: "Tom",
-          address: "No. 189, Grove St, Los Angeles",
-          tag: "Home",
-        },
-        {
-          date: "2016-05-02",
-          name: "Tom",
-          address: "No. 189, Grove St, Los Angeles",
-          tag: "Office",
-        },
-        {
-          date: "2016-05-04",
-          name: "Tom",
-          address: "No. 189, Grove St, Los Angeles",
-          tag: "Home",
-        },
-        {
-          date: "2016-05-01",
-          name: "Tom",
-          address: "No. 189, Grove St, Los Angeles",
-          tag: "Office",
-        },
-      ],
+      tableData: [],
+      tableDataFiltred: [],
+      filtroAvisos: "TODOS",
     };
   },
   methods: {
@@ -98,8 +72,54 @@ export default {
       const property = column["property"];
       return row[property] === value;
     },
+    orderTableByFilter() {
+      let array = [];
+      if (this.filtroAvisos == "IMPORTANTE") {
+        this.tableDataFiltred = this.tableData;
+        var avisosImportantes = this.tableDataFiltred.filter(
+          (produto) => produto.important == true
+        );
+        avisosImportantes.forEach((produto) => {
+          array.push(produto);
+        });
+        this.tableDataFiltred = array;
+      } else if (this.filtroAvisos == "NUNCA_EXPIRA") {
+        this.tableDataFiltred = this.tableData;
+        var avisosNuncaExpiram = this.tableDataFiltred.filter(
+          (produto) => produto.dtExpire == null
+        );
+        avisosNuncaExpiram.forEach((produto) => {
+          array.push(produto);
+        });
+        this.tableDataFiltred = array;
+      } else {
+        this.tableDataFiltred = this.tableData;
+      }
+    },
+  },
+  async mounted() {
+    let response = await getAllAvisos();
+    if (response) {
+      this.tableData = response.data;
+      this.tableDataFiltred = this.tableData;
+    }
   },
 };
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+@import "@/assets/styles/_variables.scss";
+
+h3 {
+  color: $primary-color;
+}
+
+.custom-width {
+  margin: 20px;
+}
+
+.custom-radio {
+  display: flex;
+  justify-content: flex-end;
+}
+</style>

@@ -5,9 +5,9 @@
         <b-navbar-brand v-if="this.isAdmin" href="#" @click="activeTabIndex()"
           ><b>Olá {{ this.usuario.name }} </b>
         </b-navbar-brand>
-        <!-- <b-navbar-brand v-else href="#" @click="activeTabIndex()"
-          ><b>Bem vindo, Administrador! </b>
-        </b-navbar-brand> -->
+        <b-navbar-brand v-else href="#" @click="activeTabIndex()"
+          ><b>Bem vindo, Morador! </b>
+        </b-navbar-brand>
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
@@ -36,7 +36,7 @@
         <QuadroAvisos />
       </div>
       <div v-if="this.activeIndex == 'DEFAULT'">
-        <div v-if="!this.isAdmin"><Table /></div>
+        <div v-if="!this.isAdmin">Bem vindo usuário normal</div>
         <div v-else>
           <Admin />
         </div>
@@ -50,7 +50,6 @@
 import { getUserByToken } from "@/services/usuarioService";
 import { logout } from "@/services/authService";
 import AreasComuns from "@/components/AreasComuns";
-import Table from "@/components/Table";
 import Admin from "@/components/AdminDashboard";
 import QuadroAvisos from "@/components/QuadroAvisos";
 
@@ -60,12 +59,11 @@ export default {
     return {
       usuario: {},
       activeIndex: "DEFAULT",
-      isAdmin: true,
+      isAdmin: false,
     };
   },
   components: {
     AreasComuns,
-    Table,
     Admin,
     QuadroAvisos,
   },
