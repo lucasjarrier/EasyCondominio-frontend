@@ -10,7 +10,7 @@ export const deletarAreaById = (idArea) => {
 
 // export const criarAreaComum = async (formArea, file) => {
 //   return http().post(
-//     `/area-comum?name=${formArea.name}&description=${formArea.description}&tempoPorReserva=${formArea.tempoPorReserva}&operatingTime=${formArea.operatingTime}`,
+//     `/area-comum?name=${formArea.name}&descript ion=${formArea.description}&tempoPorReserva=${formArea.tempoPorReserva}&operatingTime=${formArea.operatingTime}`,
 //     file
 //   );
 // };
