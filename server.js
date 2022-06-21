@@ -4,7 +4,7 @@ const history = require("connect-history-api-fallback");
 
 const app = express();
 
-const staticFileMiddleware = express.static(path.join(dirname + "/dist"));
+const staticFileMiddleware = express.static(path.join(__dirname + "/dist"));
 
 app.use(staticFileMiddleware);
 app.use(
@@ -16,7 +16,7 @@ app.use(
 app.use(staticFileMiddleware);
 
 app.get("/", function (req, res) {
-  res.render(path.join(dirname + "/dist/index.html"));
+  res.render(path.join(__dirname + "/dist/index.html"));
 });
 
 var server = app.listen(process.env.PORT || 8080, function () {
