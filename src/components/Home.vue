@@ -59,7 +59,7 @@ export default {
     return {
       usuario: {},
       activeIndex: "DEFAULT",
-      isAdmin: false,
+      isAdmin: true,
     };
   },
   components: {
