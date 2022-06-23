@@ -14,11 +14,12 @@
       dismissible
       >Erro ao criar usuário</b-alert
     >
-    <b-container class="container-login col-xs-12 col-sm-6 col-md-8">
-      <b-col>
-        <div>
+    <b-col>
+      <div class="center-login">
+        <div class="custom-border">
+          <h3 class="align-center">Seja bem-vindo(a)</h3>
           <b-row>
-            <label class="label-email email-psw">Email</label>
+            <label class="label-email email-psw">Login</label>
           </b-row>
           <b-row>
             <b-input-group class="input-email mr-auto ml-auto">
@@ -69,79 +70,81 @@
               Entrar
             </div>
           </div>
-          <b-row>
-            <label class="cadastro txt-cadastro"
-              >Não tem uma conta?
-              <a class="link" v-b-modal.modal-2>Cadastre-se</a>
-              <b-modal
-                v-model="modalShow"
-                id="modal-2"
-                title="Cadastrar novo Usuário"
-                hide-footer
-              >
-                <b-row>
-                  <b-form-group class="input-email mr-auto ml-auto">
-                    <b-form-input
-                      id="email"
-                      class="email-campo"
-                      type="email"
-                      placeholder="Email"
-                      v-model="form.login"
-                      required
-                    />
-                  </b-form-group>
-                  <b-form-group class="input-senha mr-auto ml-auto">
-                    <b-form-input
-                      id="senha"
-                      class="senha-campo"
-                      :type="login.showPassword ? 'text' : 'password'"
-                      placeholder="Senha"
-                      v-model="form.password"
-                      required
-                    />
-                  </b-form-group>
-                  <b-form-group class="input-senha mr-auto ml-auto">
-                    <b-form-input
-                      class="senha-campo"
-                      type="text"
-                      placeholder="Nome"
-                      v-model="form.name"
-                      required
-                    />
-                  </b-form-group>
-                  <b-form-group class="input-senha mr-auto ml-auto">
-                    <b-form-input
-                      class="senha-campo"
-                      type="text"
-                      placeholder="Apartamento"
-                      v-model="form.apartment"
-                      v-mask="'###-#'"
-                      required
-                    />
-                  </b-form-group>
-                  <b-form-group class="input-senha mr-auto ml-auto">
-                    <b-form-input
-                      class="senha-campo"
-                      type="text"
-                      placeholder="Telefone"
-                      v-model="form.phoneNumber"
-                      v-mask="'+55 (##) #####-####'"
-                      required
-                    />
-                  </b-form-group>
-                  <b-form-group class="input-senha mr-auto ml-auto">
-                    <b-form-select
-                      v-model="form.gender"
-                      :options="options"
-                    ></b-form-select>
-                  </b-form-group>
-                </b-row>
-                <b-button class="mt-3" block @click="cadastrarUsuario"
-                  >Cadastrar</b-button
+          <div>
+            <b-row>
+              <label class="cadastro txt-cadastro"
+                >Não tem uma conta?
+                <a class="link" v-b-modal.modal-2>Cadastre-se</a>
+                <b-modal
+                  v-model="modalShow"
+                  id="modal-2"
+                  title="Cadastrar novo Usuário"
+                  hide-footer
                 >
-              </b-modal>
-            </label>
-          </b-row>
+                  <b-row>
+                    <b-form-group class="input-email mr-auto ml-auto">
+                      <b-form-input
+                        id="email"
+                        class="email-campo"
+                        type="email"
+                        placeholder="Email"
+                        v-model="form.login"
+                        required
+                      />
+                    </b-form-group>
+                    <b-form-group class="input-senha mr-auto ml-auto">
+                      <b-form-input
+                        id="senha"
+                        class="senha-campo"
+                        :type="login.showPassword ? 'text' : 'password'"
+                        placeholder="Senha"
+                        v-model="form.password"
+                        required
+                      />
+                    </b-form-group>
+                    <b-form-group class="input-senha mr-auto ml-auto">
+                      <b-form-input
+                        class="senha-campo"
+                        type="text"
+                        placeholder="Nome"
+                        v-model="form.name"
+                        required
+                      />
+                    </b-form-group>
+                    <b-form-group class="input-senha mr-auto ml-auto">
+                      <b-form-input
+                        class="senha-campo"
+                        type="text"
+                        placeholder="Apartamento"
+                        v-model="form.apartment"
+                        v-mask="'###-#'"
+                        required
+                      />
+                    </b-form-group>
+                    <b-form-group class="input-senha mr-auto ml-auto">
+                      <b-form-input
+                        class="senha-campo"
+                        type="text"
+                        placeholder="Telefone"
+                        v-model="form.phoneNumber"
+                        v-mask="'+55 (##) #####-####'"
+                        required
+                      />
+                    </b-form-group>
+                    <b-form-group class="input-senha mr-auto ml-auto">
+                      <b-form-select
+                        v-model="form.gender"
+                        :options="options"
+                      ></b-form-select>
+                    </b-form-group>
+                  </b-row>
+                  <b-button class="mt-3" block @click="cadastrarUsuario"
+                    >Cadastrar</b-button
+                  >
+                </b-modal>
+              </label>
+            </b-row>
+          </div>
           <b-row>
             <label class="txt-cadastro">
               <a class="link" v-b-modal.modal-1>Esqueci minha senha</a>
@@ -169,8 +172,8 @@
             </label>
           </b-row>
         </div>
-      </b-col>
-    </b-container>
+      </div>
+    </b-col>
   </div>
 </template>
 
@@ -260,17 +263,19 @@ export default {
 @import url("//unpkg.com/element-ui@2.15.2/lib/theme-chalk/index.css");
 @import "@/assets/styles/_variables.scss";
 
+.align-center {
+  margin-top: 2%;
+  display: flex;
+  justify-content: center;
+  color: white;
+}
 .eye-icon {
-  color: rgb(94, 94, 94);
+  color: black;
 }
 .eye-btn {
   height: 50px !important;
   width: 50px !important;
   cursor: pointer;
-}
-
-.container-login {
-  width: 30rem;
 }
 
 .email-psw {
@@ -341,5 +346,23 @@ export default {
 .label-senha,
 .label-email {
   color: white;
+}
+
+.custom-border {
+  border-radius: 15px 50px;
+  background: rgba(17, 17, 17, 0.253);
+  width: 30%;
+}
+
+.center-login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media screen and (max-width: 1000px) {
+  .custom-border {
+    width: 80%;
+  }
 }
 </style>

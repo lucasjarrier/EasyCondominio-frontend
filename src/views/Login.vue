@@ -1,42 +1,22 @@
 <template>
-  <body>
-    <div class="background-image">
-      <b-row class="justify-content-center main-row" align-v="center">
-        <b-col xl="*">
-          <b-img class="logo" :src="logo"></b-img>
-          <LoginBox />
-        </b-col>
-      </b-row>
-    </div>
-  </body>
+  <div class="background-color">
+    <el-row>
+      <b-img center class="logo" :src="logo" alt="Center image"></b-img>
+    </el-row>
+    <el-row>
+      <LoginBox />
+    </el-row>
+    <footer id="footer">
+      <a class="link" href="https://www.linkedin.com/in/lucasjarrier/">
+        Lucas Jarrier © 2022</a
+      >
+    </footer>
+  </div>
 </template>
-
-<style lang="scss" scoped>
-
-  .logo {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 45%;
-  }
-
-  * {
-    margin: 0;
-    padding: 0;
-  }
-
-  .background-image{
-    background-color: black;
-    background-size: cover;
-    background-repeat: no-repeat;
-    height:100vh;
-  }
-
-</style>
 
 <script>
 import LoginBox from "@/components/login.vue";
-import Logo from "@/assets/logo_gtchef.png";
+import Logo from "@/assets/easycondominio.png";
 
 export default {
   data() {
@@ -48,3 +28,36 @@ export default {
   components: { LoginBox },
 };
 </script>
+
+<style lang="scss" scoped>
+@import "@/assets/styles/_variables.scss";
+.background-color {
+  background-color: black;
+}
+
+.logo {
+  width: 20%;
+}
+
+@media screen and (max-width: 1000px) {
+  .logo {
+    width: 40%;
+  }
+}
+
+#footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 5%;
+}
+
+@media screen and (max-width: 1000px) {
+  #footer {
+    margin-top: 15%;
+  }
+}
+
+.link {
+  color: rgba(41, 41, 41, 0.616);
+}
+</style>

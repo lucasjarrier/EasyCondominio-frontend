@@ -1,10 +1,14 @@
 <template>
-  <div id="app">
+  <div class="app">
     <router-view />
   </div>
 </template>
 
-<style lang="scss"></style>
+<style>
+html {
+  background-color: black;
+}
+</style>
 <script setup></script>
 <script>
 export default {
