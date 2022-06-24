@@ -19,3 +19,8 @@ export const criarReservasDiarias = async () => {
 export const excluirReservasDiarias = async () => {
   return http().delete("/auto");
 };
+
+export const getAllReservasByIdUser = async (idUser) => {
+  return http().get(`/reserva/listarReservasByIdUser/${idUser}`);
+
+}

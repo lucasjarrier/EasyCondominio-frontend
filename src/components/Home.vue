@@ -1,12 +1,9 @@
 <template>
   <body>
-    <div v-if="this.usuario">
+    <div class="custom-body" v-if="this.usuario">
       <b-navbar toggleable="lg" class="border" style="border-color: #000">
-        <b-navbar-brand v-if="this.isAdmin" href="#" @click="activeTabIndex()"
+        <b-navbar-brand href="#" @click="activeTabIndex()"
           ><b>Olá {{ this.usuario.name }} </b>
-        </b-navbar-brand>
-        <b-navbar-brand v-else href="#" @click="activeTabIndex()"
-          ><b>Bem vindo, Morador! </b>
         </b-navbar-brand>
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
         <b-collapse id="nav-collapse" is-nav>
@@ -14,7 +11,7 @@
             <b-nav-item href="#" @click="activeTabIndex(1)"
               >Áreas Comuns</b-nav-item
             >
-            <b-nav-item href="#" :disabled="1 < 0" @click="activeTabIndex(2)"
+            <b-nav-item href="#" @click="activeTabIndex(2)"
               >Quadro de Avisos</b-nav-item
             >
           </b-navbar-nav>
@@ -32,11 +29,13 @@
       <div v-if="this.activeIndex == 'AREA_COMUM'">
         <AreasComuns />
       </div>
-      <div v-if="this.activeIndex == 'XABLAU'">
+      <div v-if="this.activeIndex == 'QUADRO_AVISOS'">
         <QuadroAvisos />
       </div>
       <div v-if="this.activeIndex == 'DEFAULT'">
-        <div v-if="!this.isAdmin">Bem vindo usuário normal</div>
+        <div v-if="!this.isAdmin">
+          aaaaaaaaa
+        </div>
         <div v-else>
           <Admin />
         </div>
@@ -48,6 +47,7 @@
 
 <script>
 import { getUserByToken } from "@/services/usuarioService";
+import { getAllReservasByIdUser } from "@/services/reservaService";
 import { logout } from "@/services/authService";
 import AreasComuns from "@/components/AreasComuns";
 import Admin from "@/components/AdminDashboard";
@@ -59,7 +59,8 @@ export default {
     return {
       usuario: {},
       activeIndex: "DEFAULT",
-      isAdmin: true,
+      isAdmin: false,
+      tableData: [],
     };
   },
   components: {
@@ -83,7 +84,7 @@ export default {
       if (index == 1) {
         this.activeIndex = "AREA_COMUM";
       } else if (index == 2) {
-        this.activeIndex = "XABLAU";
+        this.activeIndex = "QUADRO_AVISOS";
       } else {
         this.activeIndex = "DEFAULT";
       }
@@ -93,6 +94,14 @@ export default {
     const response = await getUserByToken(localStorage.getItem("token"));
     if (response) {
       this.usuario = response.data;
+      this.isAdmin = response.data.admin;
+      if(this.usuario) {
+        const tbd = await getAllReservasByIdUser(response.data.id);
+        if(tbd) {
+          this.tableData = tbd.data;
+          console.log(this.tableData);
+        }
+      }
     } else {
       this.$router.push("/");
     }
@@ -106,4 +115,9 @@ export default {
 b:hover {
   color: #b63781;
 }
+
+.custom-body {
+  height: 150vh;
+}
+
 </style>

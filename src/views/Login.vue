@@ -58,6 +58,6 @@ export default {
 }
 
 .link {
-  color: rgba(41, 41, 41, 0.616);
+  color: rgba(105, 105, 105, 0.616);
 }
 </style>

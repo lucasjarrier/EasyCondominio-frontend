@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>Listagem de Áreas Comuns</h2>
-    <el-card class="custom-margin">
+    <el-card v-if="this.quantidadeAreas" class="custom-margin">
       <b-row v-if="listaAreas.length" :cols="this.quantidadeAreas">
         <div v-for="(item, index) in listaAreas" :key="item.id">
           <b-col>
@@ -31,6 +31,9 @@
         </div>
       </b-row>
     </el-card>
+        <el-card v-else class="custom-margin">
+          <h3> Nenhuma área foi cadastrada, contate o administrador! </h3>
+       </el-card>
     <div v-if="this.activeArea != null && this.listaAreas.length > 0">
       <el-card class="margin-top custom-margin">
         <b-row class="custom-label">
@@ -74,6 +77,7 @@ export default {
   },
   methods: {
     async handleSelect(index, idArea) {
+      console.log(index, idArea);
       this.activeArea = index;
       this.idArea = idArea;
       let response = await getReservasByIdArea(idArea);
@@ -86,6 +90,9 @@ export default {
     if (response) {
       this.listaAreas = response.data;
       this.quantidadeAreas = this.listaAreas.length;
+      if(this.listaAreas.length) {
+        this.handleSelect(0 , 1);
+      }
     }
   },
 };
@@ -102,6 +109,10 @@ h3 {
   margin-bottom: 20px;
   margin-top: 20px;
   color: $primary-color;
+}
+
+h3 {
+  font-size: 20px;
 }
 
 .margin-top {
