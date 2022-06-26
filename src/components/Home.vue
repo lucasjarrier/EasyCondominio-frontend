@@ -34,7 +34,7 @@
       </div>
       <div v-if="this.activeIndex == 'DEFAULT'">
         <div v-if="!this.isAdmin">
-          aaaaaaaaa
+          <h4> TODO: Listagem de reservas do usuário. </h4>
         </div>
         <div v-else>
           <Admin />
