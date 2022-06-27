@@ -25,6 +25,8 @@
           :data="tableDataFiltred"
           style="width: 100%"
         >
+         <el-table-column prop="title" label="Titulo" width="200" sortable>
+          </el-table-column>
           <el-table-column
             prop="dtCreated"
             label="Data de Criação"
@@ -33,9 +35,10 @@
             column-key="date"
           >
           </el-table-column>
-          <el-table-column prop="title" label="Titulo" width="200">
+         
+          <el-table-column prop="dtExpire" label="Data Fim" width="200">
           </el-table-column>
-          <el-table-column prop="description" label="Descrição" width="350">
+          <el-table-column prop="description" label="Descrição" >
           </el-table-column>
         </el-table>
       </el-card>

@@ -17,3 +17,6 @@ yarn-error.log*
 
 # IDE configs
 jsconfig.json
+
+# Personal config
+src/services/config.js

@@ -77,7 +77,6 @@ export default {
   },
   methods: {
     async handleSelect(index, idArea) {
-      console.log(index, idArea);
       this.activeArea = index;
       this.idArea = idArea;
       let response = await getReservasByIdArea(idArea);
@@ -90,9 +89,6 @@ export default {
     if (response) {
       this.listaAreas = response.data;
       this.quantidadeAreas = this.listaAreas.length;
-      if(this.listaAreas.length) {
-        this.handleSelect(0 , 1);
-      }
     }
   },
 };

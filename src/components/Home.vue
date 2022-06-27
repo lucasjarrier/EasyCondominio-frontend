@@ -14,6 +14,9 @@
             <b-nav-item href="#" @click="activeTabIndex(2)"
               >Quadro de Avisos</b-nav-item
             >
+            <b-nav-item href="#" @click="activeTabIndex(3)"
+              >Reclamações</b-nav-item
+            >
           </b-navbar-nav>
           <b-navbar-nav class="ml-auto">
             <b-nav-item-dropdown text="Meu Perfil" right>
@@ -32,9 +35,12 @@
       <div v-if="this.activeIndex == 'QUADRO_AVISOS'">
         <QuadroAvisos />
       </div>
+      <div v-if="this.activeIndex == 'RECLAMACOES'"> 
+        TODO: QUADRO DE RECLAMAÇõES
+      </div>
       <div v-if="this.activeIndex == 'DEFAULT'">
         <div v-if="!this.isAdmin">
-          <h4> TODO: Listagem de reservas do usuário. </h4>
+          <User />
         </div>
         <div v-else>
           <Admin />
@@ -51,6 +57,7 @@ import { getAllReservasByIdUser } from "@/services/reservaService";
 import { logout } from "@/services/authService";
 import AreasComuns from "@/components/AreasComuns";
 import Admin from "@/components/AdminDashboard";
+import User from "@/components/UserDashboard";
 import QuadroAvisos from "@/components/QuadroAvisos";
 
 export default {
@@ -67,6 +74,7 @@ export default {
     AreasComuns,
     Admin,
     QuadroAvisos,
+    User,
   },
   methods: {
     async logout() {
@@ -85,6 +93,8 @@ export default {
         this.activeIndex = "AREA_COMUM";
       } else if (index == 2) {
         this.activeIndex = "QUADRO_AVISOS";
+      } else if (index == 3) {
+        this.activeIndex = "RECLAMACOES";
       } else {
         this.activeIndex = "DEFAULT";
       }
@@ -95,7 +105,8 @@ export default {
     if (response) {
       this.usuario = response.data;
       this.isAdmin = response.data.admin;
-      if(this.usuario) {
+      console.log(response.data);
+      if(!this.isAdmin) {
         const tbd = await getAllReservasByIdUser(response.data.id);
         if(tbd) {
           this.tableData = tbd.data;

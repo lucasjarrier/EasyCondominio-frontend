@@ -27,7 +27,8 @@
           <el-row>
             <el-card>
               <el-row
-                ><TableElement options="true" tipo="user" :comBusca="true" />
+                ><TableElement options="true" tipo="user" :comBusca="true" :extraButton="this.setUserAdmin"
+                    extraButtonName="Promover" />
               </el-row>
             </el-card>
           </el-row>
@@ -169,6 +170,7 @@ import {
   getReservasByIdArea,
 } from "@/services/reservaService";
 import { criarAreaComum } from "@/services/areaComumService";
+import { setUserAdminById } from "@/services/usuarioService";
 
 export default {
   data() {
@@ -233,19 +235,26 @@ export default {
     async criarReservasAuto() {
       let response = await criarReservasDiarias();
       if (response) {
-        console.log("Reservas Criadas!");
+        window.location.reload(true);
+
       }
     },
     async excluirReservas() {
       let response = await excluirReservasDiarias();
       if (response) {
-        console.log("Reservas Excluidas!");
+        window.location.reload(true);
       }
     },
     async customButtonArea(index, row) {
       let response = await getReservasByIdArea(row.id);
       if (response) {
         this.itens = response.data;
+      }
+    },
+    async setUserAdmin(index, row) {
+      let response = await setUserAdminById(row.id);
+      if (response) {
+        window.location.reload(true);
       }
     },
   },

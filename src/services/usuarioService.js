@@ -15,3 +15,7 @@ export const getAllUsers = async () => {
 export const deletarUserById = (idUser) => {
   return http().delete(`/user/${idUser}`);
 };
+
+export const setUserAdminById = async (idUser) => {
+  return http().put(`/user/setUserAdminById/${idUser}`);
+}
