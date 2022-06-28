@@ -8,15 +8,24 @@
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
-            <b-nav-item href="#" @click="activeTabIndex(1)"
-              >Áreas Comuns</b-nav-item
-            >
-            <b-nav-item href="#" @click="activeTabIndex(2)"
-              >Quadro de Avisos</b-nav-item
-            >
+            <b-nav-item href="#" @click="activeTabIndex(1)">
+              <b v-if="this.activeIndex == 'AREA_COMUM'" class="selected"
+                >Áreas Comuns</b
+              >
+              <span v-else>Áreas Comuns</span>
+            </b-nav-item>
+            <b-nav-item href="#" @click="activeTabIndex(2)">
+              <b v-if="this.activeIndex == 'QUADRO_AVISOS'" class="selected"
+                >Quadro de Avisos</b
+              >
+              <span v-else>Quadro de Avisos</span>
+            </b-nav-item>
             <b-nav-item href="#" @click="activeTabIndex(3)"
-              >Reclamações</b-nav-item
-            >
+              ><b v-if="this.activeIndex == 'RECLAMACOES'" class="selected"
+                >Reclamações</b
+              >
+              <span v-else>Reclamações</span>
+            </b-nav-item>
           </b-navbar-nav>
           <b-navbar-nav class="ml-auto">
             <b-nav-item-dropdown text="Meu Perfil" right>
@@ -35,8 +44,8 @@
       <div v-if="this.activeIndex == 'QUADRO_AVISOS'">
         <QuadroAvisos />
       </div>
-      <div v-if="this.activeIndex == 'RECLAMACOES'"> 
-        TODO: QUADRO DE RECLAMAÇõES
+      <div v-if="this.activeIndex == 'RECLAMACOES'">
+        <b> Quadro de Reclamações em desenvolvimento!</b>
       </div>
       <div v-if="this.activeIndex == 'DEFAULT'">
         <div v-if="!this.isAdmin">
@@ -105,12 +114,10 @@ export default {
     if (response) {
       this.usuario = response.data;
       this.isAdmin = response.data.admin;
-      console.log(response.data);
-      if(!this.isAdmin) {
+      if (!this.isAdmin) {
         const tbd = await getAllReservasByIdUser(response.data.id);
-        if(tbd) {
+        if (tbd) {
           this.tableData = tbd.data;
-          console.log(this.tableData);
         }
       }
     } else {
@@ -131,4 +138,7 @@ b:hover {
   height: 150vh;
 }
 
+.selected {
+  color: #b63781;
+}
 </style>

@@ -20,7 +20,6 @@ export const excluirReservasDiarias = async () => {
   return http().delete("/auto");
 };
 
-export const getAllReservasByIdUser = async (idUser) => {
-  return http().get(`/reserva/listarReservasByIdUser/${idUser}`);
-
-}
+export const getAllReservasByIdUser = async () => {
+  return http().get("/reserva/listarReservasByUserLogado");
+};
