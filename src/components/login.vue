@@ -1,179 +1,178 @@
 <template>
   <div>
-    <b-alert
-      v-if="this.successCadastro == true"
-      variant="success"
-      show
-      dismissible
-      >Usuário Cadastrado com Sucesso</b-alert
-    >
-    <b-alert
-      v-if="this.successCadastro == false"
-      variant="danger"
-      show
-      dismissible
-      >Erro ao criar usuário</b-alert
-    >
-    <b-col>
-      <div class="center-login">
-        <div class="custom-border">
-          <h3 class="align-center">Seja bem-vindo(a)</h3>
-          <b-row>
-            <label class="label-email email-psw">Login</label>
-          </b-row>
-          <b-row>
-            <b-input-group class="input-email mr-auto ml-auto">
-              <b-form-input
-                id="email"
-                class="email-campo"
-                type="email"
-                v-model="formLogin.login"
-                placeholder="Email"
-                required
-              />
-            </b-input-group>
-          </b-row>
-          <b-row>
-            <label class="label-senha email-psw">Senha</label>
-          </b-row>
-          <b-row>
-            <b-input-group class="input-senha mr-auto ml-auto">
-              <b-form-input
-                id="senha"
-                class="senha-campo"
-                :type="login.showPassword ? 'text' : 'password'"
-                v-model="formLogin.password"
-                placeholder="Senha"
-                required
-              />
-              <b-input-group-prepend
-                is-text
-                class="eye-btn"
-                @click="viewPassword"
-              >
-                <b-icon
-                  v-if="!login.showPassword"
-                  class="eye-icon"
-                  icon="eye-fill"
-                />
-                <b-icon v-else class="eye-icon" icon="eye-slash-fill" />
-              </b-input-group-prepend>
-            </b-input-group>
-          </b-row>
-          <div id="container">
-            <div
-              type="submit"
-              id="entrar"
-              class="btn-enter text-center"
-              @click="logarUsuario"
+    <el-row>
+      <b-col>
+        <div class="center-login">
+          <div class="custom-border">
+            <el-alert
+              v-if="this.exibeAlert"
+              :title="this.alert.title"
+              :type="String(this.alert.type)"
+              :description="this.alert.description"
+              center
+              effect="dark"
+              show-icon
+              class="custom-alert"
             >
-              Entrar
-            </div>
-          </div>
-          <div>
+            </el-alert>
+            <h3 class="align-center">Seja bem-vindo(a)</h3>
             <b-row>
-              <label class="cadastro txt-cadastro"
-                >Não tem uma conta?
-                <a class="link" v-b-modal.modal-2>Cadastre-se</a>
+              <label class="label-email email-psw">Login</label>
+            </b-row>
+            <b-row>
+              <b-input-group class="input-email mr-auto ml-auto">
+                <b-form-input
+                  id="email"
+                  class="email-campo"
+                  type="email"
+                  v-model="formLogin.login"
+                  placeholder="Email"
+                  required
+                />
+              </b-input-group>
+            </b-row>
+            <b-row>
+              <label class="label-senha email-psw">Senha</label>
+            </b-row>
+            <b-row>
+              <b-input-group class="input-senha mr-auto ml-auto">
+                <b-form-input
+                  id="senha"
+                  class="senha-campo"
+                  :type="login.showPassword ? 'text' : 'password'"
+                  v-model="formLogin.password"
+                  placeholder="Senha"
+                  required
+                />
+                <b-input-group-prepend
+                  is-text
+                  class="eye-btn"
+                  @click="viewPassword"
+                >
+                  <b-icon
+                    v-if="!login.showPassword"
+                    class="eye-icon"
+                    icon="eye-fill"
+                  />
+                  <b-icon v-else class="eye-icon" icon="eye-slash-fill" />
+                </b-input-group-prepend>
+              </b-input-group>
+            </b-row>
+            <div id="container">
+              <div
+                type="submit"
+                id="entrar"
+                class="btn-enter text-center"
+                @click="logarUsuario"
+              >
+                Entrar
+              </div>
+            </div>
+            <div>
+              <b-row>
+                <label class="cadastro txt-cadastro"
+                  >Não tem uma conta?
+                  <a class="link" v-b-modal.modal-2>Cadastre-se</a>
+                  <b-modal
+                    v-model="modalShow"
+                    id="modal-2"
+                    title="Cadastrar novo Usuário"
+                    hide-footer
+                  >
+                    <b-row>
+                      <b-form-group class="input-email mr-auto ml-auto">
+                        <b-form-input
+                          id="email"
+                          class="email-campo"
+                          type="email"
+                          placeholder="Email"
+                          v-model="form.login"
+                          required
+                        />
+                      </b-form-group>
+                      <b-form-group class="input-senha mr-auto ml-auto">
+                        <b-form-input
+                          id="senha"
+                          class="senha-campo"
+                          :type="login.showPassword ? 'text' : 'password'"
+                          placeholder="Senha"
+                          v-model="form.password"
+                          required
+                        />
+                      </b-form-group>
+                      <b-form-group class="input-senha mr-auto ml-auto">
+                        <b-form-input
+                          class="senha-campo"
+                          type="text"
+                          placeholder="Nome"
+                          v-model="form.name"
+                          required
+                        />
+                      </b-form-group>
+                      <b-form-group class="input-senha mr-auto ml-auto">
+                        <b-form-input
+                          class="senha-campo"
+                          type="text"
+                          placeholder="Apartamento"
+                          v-model="form.apartment"
+                          v-mask="'###-#'"
+                          required
+                        />
+                      </b-form-group>
+                      <b-form-group class="input-senha mr-auto ml-auto">
+                        <b-form-input
+                          class="senha-campo"
+                          type="text"
+                          placeholder="Telefone"
+                          v-model="form.phoneNumber"
+                          v-mask="'+55 (##) #####-####'"
+                          required
+                        />
+                      </b-form-group>
+                      <b-form-group class="input-senha mr-auto ml-auto">
+                        <b-form-select
+                          v-model="form.gender"
+                          :options="options"
+                        ></b-form-select>
+                      </b-form-group>
+                    </b-row>
+                    <b-button class="mt-3" block @click="cadastrarUsuario"
+                      >Cadastrar</b-button
+                    >
+                  </b-modal>
+                </label>
+              </b-row>
+            </div>
+            <b-row>
+              <label class="txt-cadastro">
+                <a class="link" v-b-modal.modal-1>Esqueci minha senha</a>
                 <b-modal
-                  v-model="modalShow"
-                  id="modal-2"
-                  title="Cadastrar novo Usuário"
+                  id="modal-1"
+                  v-model="modalShow2"
+                  title="Recuperar Senha"
                   hide-footer
                 >
                   <b-row>
-                    <b-form-group class="input-email mr-auto ml-auto">
+                    <b-input-group class="input-email mr-auto ml-auto">
                       <b-form-input
                         id="email"
                         class="email-campo"
                         type="email"
                         placeholder="Email"
-                        v-model="form.login"
                         required
                       />
-                    </b-form-group>
-                    <b-form-group class="input-senha mr-auto ml-auto">
-                      <b-form-input
-                        id="senha"
-                        class="senha-campo"
-                        :type="login.showPassword ? 'text' : 'password'"
-                        placeholder="Senha"
-                        v-model="form.password"
-                        required
-                      />
-                    </b-form-group>
-                    <b-form-group class="input-senha mr-auto ml-auto">
-                      <b-form-input
-                        class="senha-campo"
-                        type="text"
-                        placeholder="Nome"
-                        v-model="form.name"
-                        required
-                      />
-                    </b-form-group>
-                    <b-form-group class="input-senha mr-auto ml-auto">
-                      <b-form-input
-                        class="senha-campo"
-                        type="text"
-                        placeholder="Apartamento"
-                        v-model="form.apartment"
-                        v-mask="'###-#'"
-                        required
-                      />
-                    </b-form-group>
-                    <b-form-group class="input-senha mr-auto ml-auto">
-                      <b-form-input
-                        class="senha-campo"
-                        type="text"
-                        placeholder="Telefone"
-                        v-model="form.phoneNumber"
-                        v-mask="'+55 (##) #####-####'"
-                        required
-                      />
-                    </b-form-group>
-                    <b-form-group class="input-senha mr-auto ml-auto">
-                      <b-form-select
-                        v-model="form.gender"
-                        :options="options"
-                      ></b-form-select>
-                    </b-form-group>
+                    </b-input-group>
                   </b-row>
-                  <b-button class="mt-3" block @click="cadastrarUsuario"
-                    >Cadastrar</b-button
+                  <b-button class="mt-2" block @click="recuperarSenha"
+                    >Enviar</b-button
                   >
                 </b-modal>
               </label>
             </b-row>
           </div>
-          <b-row>
-            <label class="txt-cadastro">
-              <a class="link" v-b-modal.modal-1>Esqueci minha senha</a>
-              <b-modal
-                id="modal-1"
-                v-model="modalShow2"
-                title="Recuperar Senha"
-                hide-footer
-              >
-                <b-row>
-                  <b-input-group class="input-email mr-auto ml-auto">
-                    <b-form-input
-                      id="email"
-                      class="email-campo"
-                      type="email"
-                      placeholder="Email"
-                      required
-                    />
-                  </b-input-group>
-                </b-row>
-                <b-button class="mt-2" block @click="recuperarSenha"
-                  >Enviar</b-button
-                >
-              </b-modal>
-            </label>
-          </b-row>
         </div>
-      </div>
-    </b-col>
+      </b-col>
+    </el-row>
   </div>
 </template>
 
@@ -207,6 +206,8 @@ export default {
         login: "",
         password: "",
       },
+      exibeAlert: false,
+      alert: {},
     };
   },
   methods: {
@@ -218,11 +219,20 @@ export default {
       try {
         successCadastro = await cadastrarUsuario(this.form);
       } catch (e) {
-        this.successCadastro = false;
+        this.modalShow = false;
+        this.showAlert(
+          "error",
+          "Ah não!",
+          "Ocorreu um erro ao cadastrar seu usuário."
+        );
       }
       if (successCadastro) {
         this.modalShow = false;
-        this.successCadastro = true;
+        this.showAlert(
+          "success",
+          "Legal!",
+          "Seu usuário foi criado com sucesso."
+        );
         this.clearCacheInputs();
       }
     },
@@ -234,12 +244,26 @@ export default {
         (this.form.apartment = ""),
         (this.form.phoneNumber = "");
     },
+    showAlert(type, title, desc) {
+      this.alert.type = type;
+      this.alert.title = title;
+      this.alert.description = desc;
+      this.exibeAlert = true; // eslint-disable-line
+      setTimeout(() => {
+        this.exibeAlert = false;
+      }, 5000);
+    },
     async logarUsuario() {
+      this.exibeAlert = false;
       let response = false;
       try {
         response = await login(this.formLogin);
       } catch (e) {
-        alert(e);
+        this.showAlert(
+          "error",
+          "Senha Inválida!",
+          "Por favor, digite a senha correta ou recupere sua senha."
+        );
       }
 
       if (response) {
@@ -364,5 +388,12 @@ export default {
   .custom-border {
     width: 80%;
   }
+}
+
+.custom-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
 }
 </style>
